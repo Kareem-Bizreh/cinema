@@ -30,7 +30,16 @@ public class Welcome extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String password=JOptionPane.showInputDialog("Enter the Password");
-                dispose();
+                if(password==null)
+                    return;
+                if(password.equals("1234")){
+                    new Maneger();
+                    dispose();
+                }
+                else
+                    JOptionPane.showMessageDialog(null,
+                            "Information is incorrect",
+                            "Error",JOptionPane.ERROR_MESSAGE);
             }
         });
         b2.addActionListener(new ActionListener() {
