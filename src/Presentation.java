@@ -6,11 +6,13 @@ public class Presentation {
     Date time;
     Ticket p_tickets [][];
     int numberSoldTicke;
+    int duration;
 
-    public Presentation(String movie_name, int movie_ID, Date time) {
+    public Presentation(String movie_name, int movie_ID, Date time, int duratoin) {
         this.movie_name = movie_name;
         this.movie_ID = movie_ID;
         this.time = time;
+        this.duration = duratoin;
         numberSoldTicke = 0;
         this.p_tickets = new Ticket[20][10];
 

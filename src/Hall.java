@@ -16,7 +16,7 @@ public class Hall {
 
         for(int i = 0; i < hall_presentations.size(); i++) {
             Presentation t = hall_presentations.get(i);
-            if(t.time.day == x.time.day && t.time.hour == x.time.hour) {
+            if(!check2times(t.time, t.duration, x.time, x.duration)) {
                 return false;
             }
         }   
@@ -34,5 +34,15 @@ public class Hall {
         }
         return false;
     }    
+
+    private boolean check2times(Date d1, int du1, Date d2, int du2) {
+        if(d1.day == d2.day) {
+            if(d1.hour + du1 >= d2.hour || d1.hour <= d2.hour + du2)
+            {
+                return true; 
+            }
+        }
+        return false;
+    }
 
 }
