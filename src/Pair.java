@@ -26,6 +26,14 @@ public class Pair<K, V> {
         this.value = value;
     }
 
+    public boolean equals(Pair<K, V> other) {
+        if(other.key == this.key && other.value == this.value)
+        {
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public String toString() {
         return "(" + key + ", " + value + ")";
