@@ -17,5 +17,5 @@ public class Ticket {
         this.ticket_price = 10000;
         this.sold = false;
     }
-
+    
 }
