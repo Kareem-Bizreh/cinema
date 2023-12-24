@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Welcome extends JFrame {
-    JLabel text=new JLabel("Welcome to my cinema");
+    JLabel text=new JLabel("Welcome to our cinema");
     JButton b1,b2,b3;
     ImageIcon m;
     Welcome(){
