@@ -16,7 +16,7 @@ public class Presentation {
         this.movie_ID = movie_ID;
         this.time = time;
         this.duration = duratoin;
-        numberSoldTicke = 0;
+        this.numberSoldTicke = 0;
         this.p_tickets = new Ticket[20][10];
 
         for(int i = 0; i < 20; i++) {
@@ -33,4 +33,9 @@ public class Presentation {
         return false;    
     }
     
+    public boolean is_full() {
+        if(numberSoldTicke == 200) return true;
+        return false;
+    }
+
 }
