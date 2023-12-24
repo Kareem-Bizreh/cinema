@@ -28,7 +28,7 @@ public class Hall {
     public boolean remove_resentation(Presentation x) {
         for(int i = 0; i < hall_presentations.size(); i++) {
             if(hall_presentations.get(i).equals(x)) {
-                hall_presentations.remove(x);
+                hall_presentations.remove(i);
                 return true;
             }
         }
