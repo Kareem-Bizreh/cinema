@@ -50,6 +50,20 @@ public class Maneger extends JFrame {
                 new DeleteMovies();
             }
         });
+        ChangePassword.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String NewPassword = JOptionPane.showInputDialog("Enter new password");
+                if(NewPassword==null)
+                    return;
+                if(NewPassword.isEmpty()){
+                    JOptionPane.showMessageDialog(null,
+                            "Information is incomplete",
+                            "Error",JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+            }
+        });
         add(panel);
     }
 }

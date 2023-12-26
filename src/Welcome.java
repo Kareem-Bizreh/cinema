@@ -32,6 +32,12 @@ public class Welcome extends JFrame {
                 String password=JOptionPane.showInputDialog("Enter the Password");
                 if(password==null)
                     return;
+                if(password.isEmpty()){
+                    JOptionPane.showMessageDialog(null,
+                            "Information is incomplete",
+                            "Error",JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
                 if(password.equals("1234")){
                     new Maneger();
                     dispose();
