@@ -46,8 +46,9 @@ public class Hall {
             {
                 return true; 
             }
+            return false;
         }
-        return false;
+        return true;
     }
 
     public ArrayList<Integer> hallsOfMovie(int filmID, Date filmDate) {

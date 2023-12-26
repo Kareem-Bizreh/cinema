@@ -1,17 +1,29 @@
+/*
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.Scanner;
+*/
+import java.util.ArrayList;
 
 public class Customer {
     String name;
     String password;
     int ID;
-    static int userID;
-    Ticketing booking = new Ticketing();
-    ArrayList<Ticket> user_ticket = new ArrayList<>();
+    static int userID = 0;
+    Ticketing booking;
+    ArrayList<Ticket> user_tickets;
 
+    public Customer(String name, String password) {
+        this.name = name;
+        this.password = password;
+        user_tickets = new ArrayList<>();
+        booking = new Ticketing();
+        this.ID = userID;
+        userID++; 
+    }
+
+/*
     static {
         try {
             File f = new File("userID.txt");
@@ -25,5 +37,9 @@ public class Customer {
             sc.close();
         } catch(IOException ioe) { } catch(Exception e) { }
     }
-    
+*/    
+
+
+
+
 }
