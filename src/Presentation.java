@@ -1,7 +1,7 @@
 public class Presentation {
 
     String hall_name;
-    int hull_number;
+    int hall_number;
     String movie_name;
     int movie_ID;
     Date time;
@@ -10,8 +10,8 @@ public class Presentation {
     int duration;
 
     public Presentation(String movie_name, int movie_ID, Date time, int duratoin, int hall_number) {
-        this.hull_number = hall_number;
-        this.hall_name = "Hull" + String.valueOf(hall_number);
+        this.hall_number = hall_number;
+        this.hall_name = "Hall" + String.valueOf(hall_number);
         this.movie_name = movie_name;
         this.movie_ID = movie_ID;
         this.time = time;
@@ -28,7 +28,7 @@ public class Presentation {
     }
     
     public boolean equals(Presentation p) {
-        if(this.hall_name == p.hall_name && this.movie_ID == p.movie_ID && this.time.equals(p.time))
+        if(this.hall_number == p.hall_number && this.movie_ID == p.movie_ID && this.time.equals(p.time))
             return true;
         return false;    
     }

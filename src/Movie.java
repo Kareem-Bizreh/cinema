@@ -8,16 +8,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Movie {
-    private String name;
-    private int ID;
+    String name;
+    int ID;
     static int movieID = 0;
     int duration;
     TypeMovie type;
     int counter;
+    float rate;
+    private int number_ratings;
+    private float sum_ratings;
     HashMap<Date, Integer> showtimes;
     ArrayList<Pair<Date, Integer>> date_hall;
-    ArrayList<String> comments;
-    ArrayList<String> categories;
+    ArrayList<Pair<String,String>> comments;
 /*
     static {
         try {
@@ -37,9 +39,10 @@ public class Movie {
         this.name = name;
         this.type = type;
         this.ID = movieID;
+        rate = 5;
+        this.number_ratings = 0;
         movieID++;
         this.showtimes = new HashMap<>();
-        this.categories = new ArrayList<>();
         this.comments = new ArrayList<>();
         date_hall = new ArrayList<>();
         counter = 0;
@@ -64,30 +67,16 @@ public class Movie {
     }
 
     public void removeTime(Date date) {
+        ArrayList<Pair<Date, Integer>> ans = new ArrayList<>();
         for(int i = 0; i < date_hall.size(); i++) {
-            if(date_hall.get(i).getKey().equals(date))
+            if(!date_hall.get(i).getKey().equals(date))
             {
-                date_hall.remove(i);
+                ans.add(date_hall.get(i));
             }
         }
         
+        this.date_hall = ans;
         showtimes.remove(date);
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getID() {
-        return ID;
-    }
-
-    public TypeMovie getType() {
-        return type;
-    }
-
-    public HashMap<Date, Integer> getShowtimes() {
-        return showtimes;
     }
 
     private boolean check2times(Date d1, int du1, Date d2, int du2) {
@@ -99,6 +88,20 @@ public class Movie {
             return false;
         }
         return true;
+    }
+
+    public void addComment(String name, String comment) {
+        this.comments.add(new Pair<>(name, comment));
+    }
+
+    public boolean addRate(float x) {
+        if(x <= 10 && x >= 0) {
+            this.number_ratings++;
+            this.sum_ratings += x;
+            this.rate = sum_ratings / number_ratings;
+            return true;
+        }
+        return false;
     }
 
 }

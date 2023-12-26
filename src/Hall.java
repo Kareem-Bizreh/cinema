@@ -12,7 +12,21 @@ public class Hall {
         hall_presentations = new ArrayList<Presentation>();
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public ArrayList<Presentation> getHall_presentations() {
+        return hall_presentations;
+    }
+
     public boolean add_presentation(Presentation x) {
+
+        if(x.hall_number != this.number) return false;
 
         for(int i = 0; i < hall_presentations.size(); i++) {
             Presentation t = hall_presentations.get(i);
@@ -25,8 +39,8 @@ public class Hall {
         return true; 
     }
 
-    public boolean add_presentation(String movie_name, int movie_ID, Date time, int duratoin, int hall_number) {
-        Presentation p = new Presentation(movie_name, movie_ID, time, duratoin, hall_number);
+    public boolean add_presentation(String movie_name, int movie_ID, Date time, int duratoin) {
+        Presentation p = new Presentation(movie_name, movie_ID, time, duratoin, this.number);
         return this.add_presentation(p);
     }
 
@@ -42,37 +56,37 @@ public class Hall {
 
     private boolean check2times(Date d1, int du1, Date d2, int du2) {
         if(d1.day == d2.day) {
-            if(d1.hour + du1 >= d2.hour || d1.hour <= d2.hour + du2)
-            {
-                return true; 
+            if(d1.hour + du1 >= d2.hour || d1.hour <= d2.hour + du2) {
+                return true;
             }
             return false;
         }
         return true;
     }
 
-    public ArrayList<Integer> hallsOfMovie(int filmID, Date filmDate) {
-        ArrayList<Integer> ans = new ArrayList<Integer>();
+    public Presentation presentationOfMovie(int filmID, Date filmDate) {
         int n = hall_presentations.size();
 
         for(int i = 0; i < n; i++) {
             Presentation p = hall_presentations.get(i);
-            if(p.movie_ID == filmID && p.time.equals(filmDate)) 
-                ans.add(p.hull_number);
+            if(p.movie_ID == filmID && p.time.equals(filmDate))
+                return p;
         }
-        return ans;
+        return null;
     }
 
-    public ArrayList<Integer> hullOfMovie(int filmID) {
+/*
+    public ArrayList<Integer> hallOfMovie(int filmID) {
         ArrayList<Integer> ans = new ArrayList<Integer>();
         int n = hall_presentations.size();
 
         for(int i = 0; i < n; i++) {
             Presentation p = hall_presentations.get(i);
             if(p.movie_ID == filmID)
-                ans.add(p.hull_number);
+                ans.add(p.hall_number);
         }
         return ans;
     }
+*/
 
 }
