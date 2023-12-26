@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 
 public class Maneger extends JFrame {
     Maneger(){
-        setIconImage(new ImageIcon("test.PNG").getImage());
+        setIconImage(new ImageIcon("cinema/test.png").getImage());
         setResizable(false);
         setSize(700,400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

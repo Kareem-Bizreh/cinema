@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 
 public class UserInfo extends JFrame {
     UserInfo(){
-        setIconImage(new ImageIcon("test.PNG").getImage());
+        setIconImage(new ImageIcon("cinema/test.png").getImage());
         setResizable(false);
         setSize(700,400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

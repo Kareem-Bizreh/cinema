@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 
 public class MyTickets extends JFrame {
     MyTickets(){
-        setIconImage(new ImageIcon("test.PNG").getImage());
+        setIconImage(new ImageIcon("cinema/test.png").getImage());
         setResizable(false);
         setSize(700,450);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
