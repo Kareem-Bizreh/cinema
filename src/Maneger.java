@@ -43,6 +43,13 @@ public class Maneger extends JFrame {
                 new Welcome();
             }
         });
+        delete.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                new DeleteMovies();
+            }
+        });
         add(panel);
     }
 }
