@@ -27,8 +27,7 @@ public class Pair<K, V> {
     }
 
     public boolean equals(Pair<K, V> other) {
-        if(other.key == this.key && other.value == this.value)
-        {
+        if(other.key.equals(this.key) && other.value.equals(this.value)) {
             return true;
         }
         return false;
@@ -38,4 +37,5 @@ public class Pair<K, V> {
     public String toString() {
         return "(" + key + ", " + value + ")";
     }
+    
 }

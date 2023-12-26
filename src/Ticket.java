@@ -17,5 +17,13 @@ public class Ticket {
         this.ticket_price = 10000;
         this.sold = false;
     }
+
+    public int getPrice() {
+        if(this.time.hour <= 12 && this.time.hour >= 5)
+        {
+            return this.ticket_price / 2;
+        }
+        return this.ticket_price;
+    }
     
 }
