@@ -44,6 +44,8 @@ public class LogUp extends JFrame {
                     return;
                 }
                 //Logic
+                dispose();
+                new UserInfo();
             }
         });
         Exit.addActionListener(new ActionListener() {

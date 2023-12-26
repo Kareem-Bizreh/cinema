@@ -48,6 +48,8 @@ public class Log extends JFrame{
                     return;
                 }
                 //Logic
+                dispose();
+                new UserInfo();
             }
         });
         logupButton.addActionListener(new ActionListener() {
