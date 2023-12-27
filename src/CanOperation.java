@@ -24,8 +24,9 @@ public interface CanOperation {
     Customer findCustomer(String name, String password);
 
     // to book a ticket for a user
-    void bookTicket(Customer c, int movieID, Date date, int hall_number, Pair<Integer, Integer> position);
+    void bookTicket(Customer c, Movie movie, Date date, int hall_number, ArrayList<Pair<Integer, Integer>> positions);
 
-    
+    // to unbook a ticket //! BE CARFULL THIS FUN COULD THROW AN EXCEPTION IF THE TICKET IS NOT TOKEN
+    void unbookTicket(Customer c, Movie movie, Date date, int hall_number, ArrayList<Pair<Integer, Integer>> positions);
 
 }
