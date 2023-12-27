@@ -152,7 +152,7 @@ public class Cinema implements CanOperation, Serializable {
     public int priceWithoutDiscounts(Movie movie, Date date, int hall_number,
             ArrayList<Pair<Integer, Integer>> positions) {
         return new Ticketing().priceWithoutDiscounts(movie, date, hall_number, positions, halls)
-    }                        
+    }                  
 
     
 

@@ -2,8 +2,9 @@ import java.util.ArrayList;
 
 public interface CanOperation {
 
-    // boolean fun to add movie
+    // boolean 2 functions to add or remove movie
     boolean addMovie(String name, int duration, TypeMovie type);
+    void removeMovie(Movie x);
 
     // fun to return the names of most popular movies in the cinema
     ArrayList<String> mostPopularMovie();
@@ -34,5 +35,9 @@ public interface CanOperation {
 
     // return the price of group from tickets WITHOUT discounts
     int priceWithoutDiscounts(Movie movie, Date date, int hall_number, ArrayList<Pair<Integer, Integer>> positions);
+
+    // boolean 2 functions to add or remove presentation
+    boolean addPresentation(String movieName, int movieID, Date date, int duration, int hall_number);
+    boolean removePresentation(String movieName, int movieID, Date date, int hall_number);
 
 }

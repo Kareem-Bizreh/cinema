@@ -30,6 +30,8 @@ public class Customer {
         return false;
     }
 
+    // TODO functin to remove user ticket when remove presentation
+
 /*
     static {
         try {
