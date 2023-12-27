@@ -11,7 +11,7 @@ public interface CanOperation {
     // fun to return the most popular time for a movie
     ArrayList<Date> mostPopularDateForMovie(Movie x);
 
-    // fun to return the most crowding hour in the cinema 
+    // fun to return the most crowding hour in the cinema
     int mostCrowdingHourForCinema();
 
     // add user in the application user == customer
@@ -24,9 +24,15 @@ public interface CanOperation {
     Customer findCustomer(String name, String password);
 
     // to book a ticket for a user
-    void bookTicket(Customer c, Movie movie, Date date, int hall_number, ArrayList<Pair<Integer, Integer>> positions);
+    void bookTickets(Customer c, Movie movie, Date date, int hall_number, ArrayList<Pair<Integer, Integer>> positions);
 
-    // to unbook a ticket //! BE CARFULL THIS FUN COULD THROW AN EXCEPTION IF THE TICKET IS NOT TOKEN
-    void unbookTicket(Customer c, Movie movie, Date date, int hall_number, ArrayList<Pair<Integer, Integer>> positions);
+    // to unbook a ticket //! BE CARFULL THIS FUNCTION COULD THROW AN EXCEPTION IF THE TICKET IS NOT TOKEN
+    void unbookTickets(Customer c, Movie movie, Date date, int hall_number, ArrayList<Pair<Integer, Integer>> positions);
+
+    // return the price of group from tickets WITH discounts
+    int priceWithDiscounts(Movie movie, Date date, int hall_number, ArrayList<Pair<Integer, Integer>> positions);
+
+    // return the price of group from tickets WITHOUT discounts
+    int priceWithoutDiscounts(Movie movie, Date date, int hall_number, ArrayList<Pair<Integer, Integer>> positions);
 
 }

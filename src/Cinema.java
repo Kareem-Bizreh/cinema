@@ -118,18 +118,42 @@ public class Cinema implements CanOperation, Serializable {
         }.start();
     }
     
-    public void bookTicket(Customer c, Movie movie, Date date, int hall_number,
+    public void bookTickets(Customer c, Movie movie, Date date, int hall_number,
                             ArrayList<Pair<Integer, Integer>> positions) {
-        for(Pair<Integer, Integer> position : positions) {
-            bookTicket(c, movie, date, hall_number, position);
-        }
+        new Thread(){
+            @Override
+            public void run() {
+                new Ticketing().bookTicket(c,movie,date,hall_number, positions, halls, personsPerHour);
+            }
+        }.start();
+        // for(Pair<Integer, Integer> position : positions) {
+        //     bookTicket(c, movie, date, hall_number, position);
+        // }
     }
     
-    public void unbookTicket(Customer c, Movie movie, Date date, int hall_number,
+    public void unbookTickets(Customer c, Movie movie, Date date, int hall_number,
                             ArrayList<Pair<Integer, Integer>> positions) {
-        for(Pair<Integer, Integer> position : positions) {
-            unbookTicket(c, movie, date, hall_number, position);
-        }
+        new Thread(){
+            @Override
+            public void run() {
+                new Ticketing().unbookTicket(c, movie, date, hall_number, positions, halls, personsPerHour);
+            }
+        }.start();
+        // for(Pair<Integer, Integer> position : positions) {
+        //     unbookTicket(c, movie, date, hall_number, position);
+        // }
+    }
+
+    public int priceWithDiscounts(Movie movie, Date date, int hall_number,
+            ArrayList<Pair<Integer, Integer>> positions) {
+        return new Ticketing().priceWithDiscounts(movie, date, hall_number, positions, halls)
+    }
+
+    public int priceWithoutDiscounts(Movie movie, Date date, int hall_number,
+            ArrayList<Pair<Integer, Integer>> positions) {
+        return new Ticketing().priceWithoutDiscounts(movie, date, hall_number, positions, halls)
     }                        
+
+    
 
 }
