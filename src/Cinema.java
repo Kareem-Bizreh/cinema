@@ -1,157 +1,121 @@
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-public class Cinema {
-    private ArrayList<Customer>customers;
-    private ArrayList<Movie>movies;
-    Hall halls []= new Hall[20];  
-    int personsPerHour []= new int [24];
+public class Cinema implements CanOperation, Serializable {
 
-// unparameterized constructor 
+    private ArrayList<Customer> customers;
+    private ArrayList<Movie> movies;
+    Hall halls[] = new Hall[20];
+    int personsPerHour[];
 
-    public Cinema()
-    {
-        for(int i=0;i<24;i++)
-         personsPerHour[i]=0;
-    }
- // parameterized constructor 
-    public Cinema(ArrayList<Customer> customers, ArrayList<Movie> movies) {
-        for(int i=0;i<24;i++)
-          personsPerHour[i]=0;
-        this.customers = customers;
-        this.movies = movies;
-    }
-      
-    
-// boolean fun to add movie with comments and categories 
-
-   boolean addMovie(String name, int duration, TypeMovie type,  HashMap<Date, Integer> showtimes,ArrayList<String> comments, ArrayList<String> categories)
-    {
-     Movie movie;
-     for(int i=0;i<movies.size();i++)
-      if(movies.get(i).getName()==name)
-        return false;
-     movie=new Movie(name,duration,type);
-     movie.showtimes=showtimes;
-     movie.comments=comments;
-     movie.categories=categories;
-     return true;  
+    // unparameterized constructor
+    public Cinema() {
+        this.personsPerHour = new int[24];
+        this.halls = new Hall[20];
+        this.movies = new ArrayList<>();
+        this.customers = new ArrayList<>();
+        for (int i = 0; i < 24; i++)
+            personsPerHour[i] = 0;
     }
 
-
-    // overloaded boolean fun to add movie without comments and categories 
-
-
-
-    boolean addMovie(String name, int duration, TypeMovie type,  HashMap<Date, Integer> showtimes, ArrayList<String> categories)
-    {
-     Movie movie;
-     for(int i=0;i<movies.size();i++)
-      if(movies.get(i).getName()==name)
-        return false;
-     movie=new Movie(name,duration,type);
-     movie.showtimes=showtimes;
-     movie.categories=categories;
-     return true;  
+    public boolean addMovie(String name, int duration, TypeMovie type) {
+        for (int i = 0; i < movies.size(); i++)
+            if (movies.get(i).name == name)
+                return false;
+        movies.add(new Movie(name, duration, type));
+        return true;
     }
 
-
-// fun to return the most popular movie in the cinema
-
-    Movie mostPopular()
-    {
-        
-        Movie movie = new Movie(null, 0, null);
-        int ans=0;
-        for(Movie m:movies)
-        {
-          int count=0;
-        Set set = m.showtimes.entrySet()  ;
-        Iterator iterator = set.iterator();
-        while(iterator.hasNext())
-        {
-            Map.Entry mEntry =(Map.Entry)iterator.next();
-            count+
-        }
-        if((int)mEntry.getValue()>count)
-            {
-                count=(int)mEntry.getValue();
-                movie=m;
-            }
-       }
-       return movie;
-    }
-
-
-// fun returns the crowded hour between all the showtimes 
-
-
-    int rushHour(Movie movie)
-    {
-        Date time = new Date(null, 0);
-        int count=-1;
-        Set set = movie.showtimes.entrySet()  ;
-        Iterator iterator = set.iterator();
-        while(iterator.hasNext())
-        {
-            Map.Entry mEntry =(Map.Entry)iterator.next();
-            if((int)mEntry.getValue()>count)
-            {
-                count=(int)mEntry.getValue();
-                time=(Date)mEntry.getKey();
+    public ArrayList<String> mostPopularMovie() {
+        ArrayList<String> ans = new ArrayList<>();
+        int c = 0;
+        for (Movie i : movies) {
+            if (i.counter > c) {
+                c = i.counter;
             }
         }
-        return time.hour;
+        for (Movie i : movies) {
+            if (i.counter == c) {
+                ans.add(i.name);
+            }
+        }
+        return ans;
     }
 
-
-//fun returns the croweded city in the cinema 
-
-    
-    int rushHour()
-    {
-         Date time;
-        for(int i=0;i<movies.size();i++)
-         for(Movie movie:movies)
-         {
-          Set set = movie.showtimes.entrySet()  ;
-          Iterator iterator = set.iterator();
-          while(iterator.hasNext())
-           {
-            Map.Entry mEntry =(Map.Entry)iterator.next();
-            time=(Date)mEntry.getKey();
-            personsPerHour[time.hour]+=(int)mEntry.getValue();
-           }
-        } 
-        int result=0;
-        for(int i=0;i<24;i++)
-         {
-           result=Math.max(result, personsPerHour[i]);
-         }
-         return result;
+    public ArrayList<Date> mostPopularDateForMovie(Movie x) {
+        Set<Map.Entry<Date, Integer>> st = x.showtimes.entrySet();
+        Iterator<Map.Entry<Date, Integer>> it = st.iterator();
+        ArrayList<Date> ans = new ArrayList<>();
+        int mx = 0;
+        while (it.hasNext()) {
+            Map.Entry<Date, Integer> mEntry = (Map.Entry<Date, Integer>) it.next();
+            if ((int) mEntry.getValue() > mx) {
+                mx = (int) mEntry.getValue();
+            }
+        }
+        it = st.iterator();
+        while (it.hasNext()) {
+            Map.Entry<Date, Integer> mEntry = (Map.Entry<Date, Integer>) it.next();
+            if ((int) mEntry.getValue() == mx) {
+                ans.add((Date) mEntry.getKey());
+            }
+        }
+        return ans;
     }
 
- // add user in the application user==customer
-    boolean addUser(String name,String password)
-    {
-        for(int i=0;i<customers.size();i++)
-        if(customers.get(i).name==name && customers.get(i).password==password)
-          return false;
-        Customer customer = new Customer();
-        customer.name=name;
-        customer.password=password;
+    public int mostCrowdingHourForCinema() {
+        int mx = 0;
+        for (int i : personsPerHour) {
+            mx = Math.max(mx, i);
+        }
+        return mx;
+    }
+
+    public boolean addCustomer(String name, String password) {
+        for (int i = 0; i < customers.size(); i++)
+            if (customers.get(i).name.equals(name))
+                return false;
+        Customer customer = new Customer(name, password);
         customers.add(customer);
         return true;
     }
 
-  // remove the customer or user from the application
-    
-   boolean removeUser(Customer customer)
-   {
-    return customers.remove(customer);
-   }
+    public boolean removeCustomer(Customer customer) {
+        return customers.remove(customer);
+    }
+
+    public Customer findCustomer(String name, String password) {
+        Customer c = new Customer(name, password);
+        for (var i : customers) {
+            if (i.equals(c)) {
+                return i;
+            }
+        }
+        return null;
+    }
+/*
+    public void f()
+    {
+        new Thread(){
+            @Override
+            public void run() {
+                bookTicket(null, null, null, 0, null);
+            }
+        }.start();
+    }
+*/
+    public void bookTicket(Customer c, Movie movie, Date date, int hall_number, Pair<Integer, Integer> position) {
+        Presentation p = halls[hall_number - 1].presentationOfMovie(movie.ID, date);
+        Ticket t = p.p_tickets[position.getKey()][position.getValue()];
+        t.sold = true;
+        c.user_tickets.add(t);
+        p.numberSoldTicke++;
+        movie.counter++;
+        movie.showtimes.compute(t.time, (k, v) -> (v == null) ? 0 : v + 1);
+        this.personsPerHour[t.time.hour]++;
+    }
 
 }

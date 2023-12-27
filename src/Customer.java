@@ -23,6 +23,13 @@ public class Customer {
         userID++; 
     }
 
+    boolean equals(Customer x) {
+        if (this.name.equals(x.name) && this.password.equals(x.password)) {
+            return true;
+        }
+        return false;
+    }
+
 /*
     static {
         try {

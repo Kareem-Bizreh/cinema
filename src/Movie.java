@@ -69,8 +69,7 @@ public class Movie {
     public void removeTime(Date date) {
         ArrayList<Pair<Date, Integer>> ans = new ArrayList<>();
         for(int i = 0; i < date_hall.size(); i++) {
-            if(!date_hall.get(i).getKey().equals(date))
-            {
+            if(!date_hall.get(i).getKey().equals(date)) {
                 ans.add(date_hall.get(i));
             }
         }
