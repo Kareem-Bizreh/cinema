@@ -23,7 +23,7 @@ public class Maneger extends JFrame {
         Exit.setFocusable(false);
         JButton Back = new JButton("Back");
         Back.setFocusable(false);
-        JPanel panel = new JPanel(new GridLayout(3,2));
+        JPanel panel = new JPanel(new GridLayout(3,2,10,10));
         panel.add(delete);
         panel.add(add);
         panel.add(all);

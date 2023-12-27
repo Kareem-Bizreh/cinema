@@ -43,7 +43,7 @@ public class LogUp extends JFrame {
                             "Error",JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                //Logic
+                //Logic (check if is a user with the same name exist)
                 dispose();
                 new UserInfo();
             }

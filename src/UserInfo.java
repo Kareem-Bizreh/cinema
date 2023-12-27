@@ -17,7 +17,7 @@ public class UserInfo extends JFrame {
         Back.setFocusable(false);
         setLayout(null);
         JLabel text = new JLabel("Welcome ");
-        JPanel panel = new JPanel(new GridLayout(3,2));
+        JPanel panel = new JPanel(new GridLayout(3,2,10,10));
         text.setFont(new Font("MV Boli",Font.BOLD,25));
         text.setBounds(100,0,700,80);
         JButton ChangePassword = new JButton("Change password");
@@ -62,7 +62,7 @@ public class UserInfo extends JFrame {
                             "Error",JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                //statment
+                //statment (check if the name is valid)
                 if(true){
                     JOptionPane.showMessageDialog(null,
                             "Information is invalid",
@@ -83,6 +83,7 @@ public class UserInfo extends JFrame {
                             "Error",JOptionPane.ERROR_MESSAGE);
                     return;
                 }
+                //chang password
             }
         });
         MyTicket.addActionListener(new ActionListener() {

@@ -47,7 +47,7 @@ public class Log extends JFrame{
                             "Error",JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                //Logic
+                //Logic (check if the user is already exist)
                 dispose();
                 new UserInfo();
             }
