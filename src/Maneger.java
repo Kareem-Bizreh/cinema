@@ -64,6 +64,20 @@ public class Maneger extends JFrame {
                 }
             }
         });
+        add.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                new AddMovie();
+            }
+        });
+        all.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                new AllMovies(1);
+            }
+        });
         add(panel);
     }
 }

@@ -92,5 +92,12 @@ public class UserInfo extends JFrame {
                 dispose();
             }
         });
+        all.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dispose();
+                new AllMovies(2);
+            }
+        });
     }
 }
