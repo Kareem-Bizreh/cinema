@@ -16,6 +16,7 @@ public class Ticketing {
 
     public int priceWithDiscounts(Ticket a[][], ArrayList <Pair<Integer, Integer>> al) {
         int sum = 0;
+        
         for(int i = 0; i < al.size(); i++) {
             sum += a[al.get(i).getKey() - 1][al.get(i).getValue() - 1].getPrice();
         }
@@ -23,6 +24,7 @@ public class Ticketing {
         if(al.size() >= 10) {
             sum /= 2;
         }
+
         else if(al.size() >= 5) {
             sum *= 3;
             sum /= 4;

@@ -96,17 +96,19 @@ public class Cinema implements CanOperation, Serializable {
         }
         return null;
     }
+
 /*
-    public void f()
+    public void f(Customer c, Movie movie, Date date, int hall_number, Pair<Integer, Integer> position)
     {
         new Thread(){
             @Override
             public void run() {
-                bookTicket(null, null, null, 0, null);
+                bookTicket(c,movie,date,hall_number,position);
             }
         }.start();
     }
 */
+
     public void bookTicket(Customer c, Movie movie, Date date, int hall_number, Pair<Integer, Integer> position) {
         Presentation p = halls[hall_number - 1].presentationOfMovie(movie.ID, date);
         Ticket t = p.p_tickets[position.getKey()][position.getValue()];
