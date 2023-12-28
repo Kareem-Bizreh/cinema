@@ -54,6 +54,9 @@ public class Chair extends JFrame {
                             chairs[i][j].setBackground(Color.RED);
                         }
                     }
+                //check how much he will pay
+                dispose();
+                new PaymentWays();
             }
         });
         Exit.addActionListener(new ActionListener() {
@@ -66,14 +69,6 @@ public class Chair extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //movie info frame
-            }
-        });
-        reserve.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //check how much he will pay
-                dispose();
-                new PaymentWays();
             }
         });
     }
