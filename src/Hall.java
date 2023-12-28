@@ -48,7 +48,7 @@ public class Hall {
         for(int i = 0; i < hall_presentations.size(); i++) {
             Presentation hp = hall_presentations.get(i);
             if(hp.equals(x)) {
-                int n = hp.numberSoldTicke; 
+                int n = hp.numberSoldTicke;
                 hall_presentations.remove(i);
                 return n;
             }

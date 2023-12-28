@@ -78,5 +78,13 @@ public interface CanOperation {
     // 2 boolean functions to add or remove presentation
     boolean addPresentation(Movie movie, Date date, int duration, int hall_number);
     void removePresentation(Movie m, Presentation p);
+    
+    void addComment(Customer customer, Movie movie, String Comment);
+    void addRate(Movie movie, int rate);
+
+    Presentation getPresentation(Movie m, Date date, int hall_number);
+    Ticket[][] getTickets(Presentation p);
+    ArrayList<Pair<Integer, Integer>> getCommrnts(Movie m);
+    int getRate(Movie m);
 
 }
