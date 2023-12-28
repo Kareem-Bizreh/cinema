@@ -23,9 +23,15 @@ public class DeleteMovies extends JFrame {
         Object[][] data={
                 {"1 ","2","2","3"},
         };
-        DefaultTableModel model = new DefaultTableModel(data, columnNames);
+        DefaultTableModel model = new DefaultTableModel(data, columnNames){
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         JTable table = new JTable(model);
         //table.setPreferredSize(new Dimension(400,400));
+        table.getTableHeader().setReorderingAllowed(false);
         JScrollPane scrollPane = new JScrollPane();
         scrollPane.setViewportView(table);
         scrollPane.setBounds(10, 10, 680, 250);
