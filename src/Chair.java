@@ -33,7 +33,7 @@ public class Chair extends JFrame {
         chair.setForeground(Color.RED);
         JButton reserve = new JButton("Reserve the chairs");
         reserve.setFocusable(false);
-        panel.setBounds(90,100,400,300);
+        panel.setBounds(25,100,550,300);
         chair.setBounds(10,30,600,30);
         reserve.setBounds(50,420,200,50);
         Back.setBounds(50,480,100,50);
