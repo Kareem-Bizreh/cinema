@@ -36,7 +36,7 @@ public class Hall {
         }
 
         hall_presentations.add(x);
-        return true; 
+        return true;
     }
 
     public boolean add_presentation(String movie_name, int movie_ID, Date time, int duratoin) {
