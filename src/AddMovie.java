@@ -68,6 +68,7 @@ public class AddMovie extends JFrame {
         mainPanel.setBounds(0,70,700,250);
         add(mainPanel);
         JButton addButton = new JButton("Add Movie");
+        addButton.setFocusable(false);
         addButton.setBounds(25,350,100,50);
         Back.setBounds(25,425,100,50);
         Exit.setBounds(600,350,100,50);
