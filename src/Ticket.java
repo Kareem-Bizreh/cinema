@@ -25,5 +25,9 @@ public class Ticket {
         }
         return this.ticket_price;
     }
-    
+
+    public int getChair_number() {
+        return chair_number;
+    }
+
 }

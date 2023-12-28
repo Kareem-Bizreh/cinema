@@ -2,11 +2,23 @@ import java.util.ArrayList;
 
 public class Ticketing {
 
+    
     public void bookTicket(Customer c, Movie movie, Date date, int hall_number, ArrayList<Pair<Integer, Integer>> positions,
                             Hall[] halls, int[] personsPerHour) {
         Presentation p = halls[hall_number - 1].presentationOfMovie(movie.ID, date);
         for(Pair<Integer, Integer> pos : positions) {
             Ticket t = p.p_tickets[pos.getKey() - 1][pos.getValue() - 1];
+            t.sold = true;
+            c.user_tickets.add(t);
+            p.numberSoldTicke++;
+            movie.counter++;
+            movie.showtimes.compute(t.time, (k, v) -> (v == null) ? 1 : v + 1);
+            personsPerHour[t.time.hour]++;
+        }
+    }
+
+    public void bookTicket(Customer c, Movie movie, Presentation p, ArrayList<Ticket> booking, int[] personsPerHour) {
+        for(Ticket t : booking) {
             t.sold = true;
             c.user_tickets.add(t);
             p.numberSoldTicke++;
@@ -30,8 +42,19 @@ public class Ticketing {
         }
     }
 
-    int priceWithDiscounts(Movie movie, Date date, int hall_number, ArrayList<Pair<Integer, Integer>> positions,
-                            Hall[] halls) {
+    public void unbookTicket(Customer c, Movie movie, Presentation p, ArrayList<Ticket> booking, int[] personsPerHour) {
+        for(Ticket t : booking) {
+            t.sold = false;
+            c.user_tickets.remove(t);
+            p.numberSoldTicke--;
+            movie.counter--;
+            movie.showtimes.compute(t.time, (k, v) -> (v == null) ? 0 : v - 1);
+            personsPerHour[t.time.hour]--;
+        }
+    }
+
+    public int priceWithDiscounts(Movie movie, Date date, int hall_number, ArrayList<Pair<Integer, Integer>> positions,
+                                    Hall[] halls) {
         Presentation p = halls[hall_number - 1].presentationOfMovie(movie.ID, date);
         int sum = 0;
         for(Pair<Integer, Integer> pos : positions) {
@@ -49,8 +72,23 @@ public class Ticketing {
         return sum;
     }
 
+    public int priceWithDiscounts(ArrayList<Ticket> tickets) {
+        int sum = 0;
+        for(Ticket t : tickets) {
+            sum += t.getPrice();
+        }
+        if(tickets.size() >= 10) {
+            sum /= 2;
+        }
+        else if(tickets.size() >= 5) {
+            sum *= 3;
+            sum /= 4;
+        }
+        return sum;
+    }
+
     public int priceWithoutDiscounts(Movie movie, Date date, int hall_number, ArrayList<Pair<Integer, Integer>> positions,
-                            Hall[] halls) {
+                                        Hall[] halls) {
         Presentation p = halls[hall_number - 1].presentationOfMovie(movie.ID, date);
         int sum = 0;
         for(Pair<Integer, Integer> pos : positions) {
@@ -60,18 +98,12 @@ public class Ticketing {
         return sum;
     }
     
-/*
-    public void bookTicket(Ticket a[][], ArrayList <Pair<Integer, Integer>> al) {
-        for(int i = 0; i < al.size(); i++) {
-            a[al.get(i).getKey() - 1][al.get(i).getValue() - 1].sold = true;
+    public int priceWithoutDiscounts(ArrayList<Ticket> tickets) {
+        int sum = 0;
+        for(Ticket t : tickets) {
+            sum += t.ticket_price;
         }
+        return sum;
     }
-
-    public void unbookTicket(Ticket a[][], ArrayList <Pair<Integer, Integer>> al) {
-        for(int i = 0; i < al.size(); i++) {
-            a[al.get(i).getKey() - 1][al.get(i).getValue() - 1].sold = false;
-        }
-    }
-*/
 
 }

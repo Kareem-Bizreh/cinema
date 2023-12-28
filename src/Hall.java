@@ -44,14 +44,16 @@ public class Hall {
         return this.add_presentation(p);
     }
 
-    public boolean remove_presentation(Presentation x) {
+    public int remove_presentation(Presentation x) {
         for(int i = 0; i < hall_presentations.size(); i++) {
-            if(hall_presentations.get(i).equals(x)) {
+            Presentation hp = hall_presentations.get(i);
+            if(hp.equals(x)) {
+                int n = hp.numberSoldTicke; 
                 hall_presentations.remove(i);
-                return true;
+                return n;
             }
         }
-        return false;
+        return 0;
     }    
 
     private boolean check2times(Date d1, int du1, Date d2, int du2) {
@@ -75,18 +77,16 @@ public class Hall {
         return null;
     }
 
-/*
-    public ArrayList<Integer> hallOfMovie(int filmID) {
-        ArrayList<Integer> ans = new ArrayList<Integer>();
+    public ArrayList<Presentation> presentationOfMovie(int filmID) {
+        ArrayList<Presentation> ans = new ArrayList<>();
         int n = hall_presentations.size();
 
         for(int i = 0; i < n; i++) {
             Presentation p = hall_presentations.get(i);
-            if(p.movie_ID == filmID)
-                ans.add(p.hall_number);
+            if(p.movie_ID == filmID )
+                ans.add(p);
         }
         return ans;
     }
-*/
 
 }

@@ -29,6 +29,37 @@ public class Cinema implements CanOperation, Serializable {
         return true;
     }
 
+    public void removeMovie(Movie m) {
+        new Thread(){
+            @Override
+            public void run() {
+                for(var h : halls) {
+                    ArrayList<Presentation> a = h.presentationOfMovie(m.ID);
+                    for(Presentation p : a) {
+                        removePresentation(m, p);
+                    }
+                }
+                movies.remove(m);
+            }
+        }.start(); 
+    }
+
+    public void removeMovie(int index_of_movie) {
+        new Thread(){
+            @Override
+            public void run() {
+                Movie m = movies.get(index_of_movie);
+                for(var h : halls) {
+                    ArrayList<Presentation> a = h.presentationOfMovie(m.ID);
+                    for(Presentation p : a) {
+                        removePresentation(m, p);
+                    }
+                }
+                movies.remove(index_of_movie);
+            }
+        }.start(); 
+    }
+
     public ArrayList<String> mostPopularMovie() {
         ArrayList<String> ans = new ArrayList<>();
         int c = 0;
@@ -59,7 +90,7 @@ public class Cinema implements CanOperation, Serializable {
         it = st.iterator();
         while (it.hasNext()) {
             Map.Entry<Date, Integer> mEntry = (Map.Entry<Date, Integer>) it.next();
-            if ((int) mEntry.getValue() == mx) {
+            if ((int) mEntry.getValue() == mx && mx != 0) {
                 ans.add((Date) mEntry.getKey());
             }
         }
@@ -96,27 +127,6 @@ public class Cinema implements CanOperation, Serializable {
         }
         return null;
     }
-
-    
-    private void bookTicket(Customer c, Movie movie, Date date, int hall_number,
-                            Pair<Integer, Integer> position) {
-        new Thread(){
-            @Override
-            public void run() {
-                new Ticketing().bookTicket(c,movie,date,hall_number,position, halls, personsPerHour);
-            }
-        }.start();
-    }
-
-    private void unbookTicket(Customer c, Movie movie, Date date, int hall_number,
-                            Pair<Integer, Integer> position) {
-        new Thread(){
-            @Override
-            public void run() {
-                new Ticketing().unbookTicket(c, movie, date, hall_number, position, halls, personsPerHour);
-            }
-        }.start();
-    }
     
     public void bookTickets(Customer c, Movie movie, Date date, int hall_number,
                             ArrayList<Pair<Integer, Integer>> positions) {
@@ -126,11 +136,17 @@ public class Cinema implements CanOperation, Serializable {
                 new Ticketing().bookTicket(c,movie,date,hall_number, positions, halls, personsPerHour);
             }
         }.start();
-        // for(Pair<Integer, Integer> position : positions) {
-        //     bookTicket(c, movie, date, hall_number, position);
-        // }
     }
     
+    public void bookTicket(Customer c, Movie movie, Presentation p, ArrayList<Ticket> booking) {
+        new Thread(){
+            @Override
+            public void run() {
+                new Ticketing().bookTicket(c, movie, p, booking, personsPerHour);
+            }
+        }.start();
+    }
+
     public void unbookTickets(Customer c, Movie movie, Date date, int hall_number,
                             ArrayList<Pair<Integer, Integer>> positions) {
         new Thread(){
@@ -139,21 +155,52 @@ public class Cinema implements CanOperation, Serializable {
                 new Ticketing().unbookTicket(c, movie, date, hall_number, positions, halls, personsPerHour);
             }
         }.start();
-        // for(Pair<Integer, Integer> position : positions) {
-        //     unbookTicket(c, movie, date, hall_number, position);
-        // }
+    }
+
+    public void unbookTicket(Customer c, Movie movie, Presentation p, ArrayList<Ticket> booking) {
+        new Thread(){
+            @Override
+            public void run() {
+                new Ticketing().unbookTicket(c, movie, p, booking, personsPerHour);
+            }
+        }.start();
     }
 
     public int priceWithDiscounts(Movie movie, Date date, int hall_number,
             ArrayList<Pair<Integer, Integer>> positions) {
-        return new Ticketing().priceWithDiscounts(movie, date, hall_number, positions, halls)
+        return new Ticketing().priceWithDiscounts(movie, date, hall_number, positions, halls);
+    }
+
+    public int priceWithDiscounts(ArrayList<Ticket> tickets) {
+        return new Ticketing().priceWithDiscounts(tickets);
     }
 
     public int priceWithoutDiscounts(Movie movie, Date date, int hall_number,
             ArrayList<Pair<Integer, Integer>> positions) {
-        return new Ticketing().priceWithoutDiscounts(movie, date, hall_number, positions, halls)
+        return new Ticketing().priceWithoutDiscounts(movie, date, hall_number, positions, halls);
     }                  
 
-    
+    public int priceWithoutDiscounts(ArrayList<Ticket> tickets) {
+        return new Ticketing().priceWithoutDiscounts(tickets);
+    }
+
+    public boolean addPresentation(Movie movie, Date date, int duration, int hall_number) {
+        if(hall_number >= 20 || hall_number < 0) return false;
+        boolean c = halls[hall_number - 1].add_presentation(movie.name, movie.ID, date, duration);
+        if(c) movie.addPres(date, hall_number);
+        return c;
+    }
+
+    public void removePresentation(Movie m, Presentation p) {
+        new Thread(){
+            @Override
+            public void run() {
+                m.removePres(p.time, halls[p.hall_number - 1].remove_presentation(p));
+                for(int i = 0; i < customers.size(); i++) {
+                    customers.get(i).removePres(p.movie_name, p.time, p.hall_name);
+                }
+            }
+        }.start();   
+    }
 
 }
