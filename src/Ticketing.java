@@ -2,7 +2,6 @@ import java.util.ArrayList;
 
 public class Ticketing {
 
-    
     public void bookTicket(Customer c, Movie movie, Date date, int hall_number, ArrayList<Pair<Integer, Integer>> positions,
                             Hall[] halls, int[] personsPerHour) {
         Presentation p = halls[hall_number - 1].presentationOfMovie(movie.ID, date);

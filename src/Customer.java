@@ -17,8 +17,14 @@ public class Customer {
         userID++; 
     }
 
-    boolean equals(Customer x) {
-        if (this.name.equals(x.name) && this.password.equals(x.password)) {
+    @Override
+    public boolean equals(Object x) {
+        if(this == x) return true; 
+        if (x == null || getClass() != x.getClass()) return false;
+
+        Customer customer = (Customer) x;
+        
+        if (this.name.equals(customer.name) && this.password.equals(customer.password)) {
             return true;
         }
         return false;

@@ -21,6 +21,7 @@ public class Cinema implements CanOperation, Serializable {
             personsPerHour[i] = 0;
     }
 
+    @Override
     public boolean addMovie(String name, int duration, TypeMovie type) {
         for (int i = 0; i < movies.size(); i++)
             if (movies.get(i).name == name)
@@ -29,6 +30,7 @@ public class Cinema implements CanOperation, Serializable {
         return true;
     }
 
+    @Override
     public void removeMovie(Movie m) {
         new Thread(){
             @Override
@@ -44,6 +46,7 @@ public class Cinema implements CanOperation, Serializable {
         }.start(); 
     }
 
+    @Override
     public void removeMovie(int index_of_movie) {
         new Thread(){
             @Override
@@ -60,6 +63,7 @@ public class Cinema implements CanOperation, Serializable {
         }.start(); 
     }
 
+    @Override
     public ArrayList<String> mostPopularMovie() {
         ArrayList<String> ans = new ArrayList<>();
         int c = 0;
@@ -76,6 +80,7 @@ public class Cinema implements CanOperation, Serializable {
         return ans;
     }
 
+    @Override
     public ArrayList<Date> mostPopularDateForMovie(Movie x) {
         Set<Map.Entry<Date, Integer>> st = x.showtimes.entrySet();
         Iterator<Map.Entry<Date, Integer>> it = st.iterator();
@@ -97,6 +102,7 @@ public class Cinema implements CanOperation, Serializable {
         return ans;
     }
 
+    @Override
     public int mostCrowdingHourForCinema() {
         int mx = 0;
         for (int i : personsPerHour) {
@@ -105,6 +111,7 @@ public class Cinema implements CanOperation, Serializable {
         return mx;
     }
 
+    @Override
     public boolean addCustomer(String name, String password) {
         for (int i = 0; i < customers.size(); i++)
             if (customers.get(i).name.equals(name))
@@ -114,10 +121,12 @@ public class Cinema implements CanOperation, Serializable {
         return true;
     }
 
+    @Override
     public boolean removeCustomer(Customer customer) {
         return customers.remove(customer);
     }
 
+    @Override
     public Customer findCustomer(String name, String password) {
         Customer c = new Customer(name, password);
         for (var i : customers) {
@@ -127,7 +136,8 @@ public class Cinema implements CanOperation, Serializable {
         }
         return null;
     }
-    
+
+    @Override
     public void bookTickets(Customer c, Movie movie, Date date, int hall_number,
                             ArrayList<Pair<Integer, Integer>> positions) {
         new Thread(){
@@ -137,7 +147,8 @@ public class Cinema implements CanOperation, Serializable {
             }
         }.start();
     }
-    
+
+    @Override
     public void bookTicket(Customer c, Movie movie, Presentation p, ArrayList<Ticket> booking) {
         new Thread(){
             @Override
@@ -147,6 +158,7 @@ public class Cinema implements CanOperation, Serializable {
         }.start();
     }
 
+    @Override
     public void unbookTickets(Customer c, Movie movie, Date date, int hall_number,
                             ArrayList<Pair<Integer, Integer>> positions) {
         new Thread(){
@@ -157,6 +169,7 @@ public class Cinema implements CanOperation, Serializable {
         }.start();
     }
 
+    @Override
     public void unbookTicket(Customer c, Movie movie, Presentation p, ArrayList<Ticket> booking) {
         new Thread(){
             @Override
@@ -166,24 +179,29 @@ public class Cinema implements CanOperation, Serializable {
         }.start();
     }
 
+    @Override
     public int priceWithDiscounts(Movie movie, Date date, int hall_number,
             ArrayList<Pair<Integer, Integer>> positions) {
         return new Ticketing().priceWithDiscounts(movie, date, hall_number, positions, halls);
     }
 
+    @Override
     public int priceWithDiscounts(ArrayList<Ticket> tickets) {
         return new Ticketing().priceWithDiscounts(tickets);
     }
 
+    @Override
     public int priceWithoutDiscounts(Movie movie, Date date, int hall_number,
             ArrayList<Pair<Integer, Integer>> positions) {
         return new Ticketing().priceWithoutDiscounts(movie, date, hall_number, positions, halls);
-    }                  
+    }  
 
+    @Override
     public int priceWithoutDiscounts(ArrayList<Ticket> tickets) {
         return new Ticketing().priceWithoutDiscounts(tickets);
     }
 
+    @Override
     public boolean addPresentation(Movie movie, Date date, int duration, int hall_number) {
         if(hall_number >= 20 || hall_number < 0) return false;
         boolean c = halls[hall_number - 1].add_presentation(movie.name, movie.ID, date, duration);
@@ -191,16 +209,64 @@ public class Cinema implements CanOperation, Serializable {
         return c;
     }
 
+    @Override
     public void removePresentation(Movie m, Presentation p) {
         new Thread(){
             @Override
             public void run() {
-                m.removePres(p.time, halls[p.hall_number - 1].remove_presentation(p));
+                int n = halls[p.hall_number - 1].remove_presentation(p);
+                m.removePres(p.time, n);
+                personsPerHour[p.time.hour] -= n;
                 for(int i = 0; i < customers.size(); i++) {
                     customers.get(i).removePres(p.movie_name, p.time, p.hall_name);
                 }
             }
         }.start();   
+    }
+
+    @Override
+    public void addComment(Customer customer, Movie movie, String Comment) {
+        movie.addComment(customer.name, Comment);
+    }
+
+    @Override
+    public void addRate(Movie movie, float rate) {
+        movie.addRate(rate);
+    }
+
+    @Override
+    public Presentation getPresentation(Movie m, Date date, int hall_number) {
+        return halls[hall_number - 1].presentationOfMovie(m.ID, date);
+    }
+
+    @Override
+    public Ticket[][] getTickets(Presentation p) {
+        return p.p_tickets;
+    }
+
+    @Override
+    public ArrayList<Pair<String, String>> getCommrnts(Movie m) {
+        return m.comments;
+    }
+
+    @Override
+    public float getRate(Movie m) {
+        return m.rate; 
+    }
+
+    @Override
+    public ArrayList<Presentation> getHall_presentations(int hall_number) {
+        return halls[hall_number - 1].getHall_presentations();
+    }
+
+    @Override
+    public boolean is_full(Presentation p) {
+        return p.is_full();
+    }
+
+    @Override
+    public int getChair_number(Ticket t) {
+        return t.getChair_number();
     }
 
 }

@@ -2,6 +2,11 @@ import java.util.ArrayList;
 
 public interface CanOperation {
 
+
+   /*
+    * //! be carefull sume functin could throw an exception if you don't treat it correctly ...
+    */
+
     // 3 boolean functions to add or remove movie
     boolean addMovie(String name, int duration, TypeMovie type);
     void removeMovie(Movie x); //bad time
@@ -10,10 +15,13 @@ public interface CanOperation {
     // fun to return the names of most popular movies in the cinema
     ArrayList<String> mostPopularMovie();
 
-    // fun to return the most popular time for a movie
+    /**  
+     * this function to return the most popular time for a movie 
+     * @param x : movie
+     */
     ArrayList<Date> mostPopularDateForMovie(Movie x);
 
-    // fun to return the most crowding hour in the cinema
+    /** fun to return the most crowding hour in the cinema */
     int mostCrowdingHourForCinema();
 
     // add user in the application user == customer
@@ -84,7 +92,10 @@ public interface CanOperation {
 
     Presentation getPresentation(Movie m, Date date, int hall_number);
     Ticket[][] getTickets(Presentation p);
-    ArrayList<Pair<Integer, Integer>> getCommrnts(Movie m);
-    int getRate(Movie m);
-
+    ArrayList<Pair<String, String>> getCommrnts(Movie m);
+    float getRate(Movie m);
+    ArrayList<Presentation> getHall_presentations(int hall_number);
+    boolean is_full(Presentation p);
+    int getChair_number(Ticket t);
+    
 }

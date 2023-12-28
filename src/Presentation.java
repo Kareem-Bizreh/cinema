@@ -27,10 +27,16 @@ public class Presentation {
         }    
     }
     
-    public boolean equals(Presentation p) {
+    @Override
+    public boolean equals(Object o) {
+        if(this == o) return true; 
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Presentation p = (Presentation) o;
+
         if(this.hall_number == p.hall_number && this.movie_ID == p.movie_ID && this.time.equals(p.time))
             return true;
-        return false;    
+        return false;
     }
     
     public boolean is_full() {
