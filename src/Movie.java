@@ -20,21 +20,7 @@ public class Movie {
     HashMap<Date, Integer> showtimes;
     ArrayList<Pair<Date, Integer>> date_hall;
     ArrayList<Pair<String,String>> comments;
-/*
-    static {
-        try {
-            File f = new File("movieID.txt");
-            if(f.createNewFile()) {
-                PrintWriter pw = new PrintWriter("movieID.txt");
-                pw.print(0);
-                pw.close();
-            }
-            Scanner sc = new Scanner(f);
-            movieID = sc.nextInt();
-            sc.close();
-        } catch(IOException ioe) { } catch(Exception e) { }
-    }
-*/
+
     public Movie(String name, int duration, TypeMovie type) {
         this.name = name;
         this.type = type;
@@ -48,7 +34,7 @@ public class Movie {
         counter = 0;
     }
 
-    public boolean addTime(Date date, int hall_number) {
+    public boolean addPres(Date date, int hall_number) {
         for(int i = 0; i < date_hall.size(); i++) {
             if(date_hall.get(i).getValue() == hall_number) {
                 if(!check2times(date_hall.get(i).getKey(), this.duration, date, this.duration)) {
@@ -66,7 +52,7 @@ public class Movie {
         return true;
     }
 
-    public void removeTime(Date date) {
+    public void removePres(Date date, int number_booking_users) {
         ArrayList<Pair<Date, Integer>> ans = new ArrayList<>();
         for(int i = 0; i < date_hall.size(); i++) {
             if(!date_hall.get(i).getKey().equals(date)) {
@@ -75,7 +61,7 @@ public class Movie {
         }
         
         this.date_hall = ans;
-        showtimes.remove(date);
+        showtimes.compute(date, (k, v) -> (v == null) ? 0 : v - number_booking_users);
     }
 
     private boolean check2times(Date d1, int du1, Date d2, int du2) {

@@ -1,0 +1,85 @@
+/* 
+    private void bookTicket(Customer c, Movie movie, Date date, int hall_number,
+                            Pair<Integer, Integer> position) {
+        new Thread(){
+            @Override
+            public void run() {
+                new Ticketing().bookTicket(c,movie,date,hall_number,position, halls, personsPerHour);
+            }
+        }.start();
+    }
+
+///////////////////////////////////////
+
+    private void unbookTicket(Customer c, Movie movie, Date date, int hall_number,
+                            Pair<Integer, Integer> position) {
+        new Thread(){
+            @Override
+            public void run() {
+                new Ticketing().unbookTicket(c, movie, date, hall_number, position, halls, personsPerHour);
+            }
+        }.start();
+    }
+*/
+
+/*
+    static {
+        try {
+            File f = new File("userID.txt");
+            if(f.createNewFile()) {
+                PrintWriter pw = new PrintWriter("userID.txt");
+                pw.print(0);
+                pw.close();
+            }
+            Scanner sc = new Scanner(f);
+            userID = sc.nextInt();
+            sc.close();
+        } catch(IOException ioe) { } catch(Exception e) { }
+    }
+
+//////////////////////////////////////
+
+    static {
+        try {
+            File f = new File("movieID.txt");
+            if(f.createNewFile()) {
+                PrintWriter pw = new PrintWriter("movieID.txt");
+                pw.print(0);
+                pw.close();
+            }
+            Scanner sc = new Scanner(f);
+            movieID = sc.nextInt();
+            sc.close();
+        } catch(IOException ioe) { } catch(Exception e) { }
+    }
+*/
+
+/*
+    public void bookTicket(Ticket a[][], ArrayList <Pair<Integer, Integer>> al) {
+        for(int i = 0; i < al.size(); i++) {
+            a[al.get(i).getKey() - 1][al.get(i).getValue() - 1].sold = true;
+        }
+    }
+
+//////////////////////////////////////
+
+    public void unbookTicket(Ticket a[][], ArrayList <Pair<Integer, Integer>> al) {
+        for(int i = 0; i < al.size(); i++) {
+            a[al.get(i).getKey() - 1][al.get(i).getValue() - 1].sold = false;
+        }
+    }
+*/
+
+/*
+    public ArrayList<Integer> hallOfMovie(int filmID) {
+        ArrayList<Integer> ans = new ArrayList<Integer>();
+        int n = hall_presentations.size();
+
+        for(int i = 0; i < n; i++) {
+            Presentation p = hall_presentations.get(i);
+            if(p.movie_ID == filmID)
+                ans.add(p.hall_number);
+        }
+        return ans;
+    }
+*/

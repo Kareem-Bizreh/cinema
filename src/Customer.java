@@ -1,9 +1,3 @@
-/*
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Scanner;
-*/
 import java.util.ArrayList;
 
 public class Customer {
@@ -30,25 +24,15 @@ public class Customer {
         return false;
     }
 
-    // TODO functin to remove user ticket when remove presentation
-
-/*
-    static {
-        try {
-            File f = new File("userID.txt");
-            if(f.createNewFile()) {
-                PrintWriter pw = new PrintWriter("userID.txt");
-                pw.print(0);
-                pw.close();
-            }
-            Scanner sc = new Scanner(f);
-            userID = sc.nextInt();
-            sc.close();
-        } catch(IOException ioe) { } catch(Exception e) { }
+    /** functin to remove user ticket when remove presentation*/
+    public void removePres(String movie_name, Date date, String hall_number) {
+        ArrayList<Ticket> ans = new ArrayList<>();
+        for(int  i = 0; i < user_tickets.size(); i++) {
+            Ticket t = user_tickets.get(i);
+            if(t.movie_name.equals(movie_name) && t.time.equals(date) && t.hall_name.equals(hall_number)) {}
+            else ans.add(t);
+        }
+        user_tickets = ans;
     }
-*/    
-
-
-
 
 }

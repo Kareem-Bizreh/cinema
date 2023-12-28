@@ -2,9 +2,10 @@ import java.util.ArrayList;
 
 public interface CanOperation {
 
-    // boolean 2 functions to add or remove movie
+    // 3 boolean functions to add or remove movie
     boolean addMovie(String name, int duration, TypeMovie type);
-    void removeMovie(Movie x);
+    void removeMovie(Movie x); //bad time
+    void removeMovie(int index_of_movie); //speed
 
     // fun to return the names of most popular movies in the cinema
     ArrayList<String> mostPopularMovie();
@@ -25,19 +26,57 @@ public interface CanOperation {
     Customer findCustomer(String name, String password);
 
     // to book a ticket for a user
-    void bookTickets(Customer c, Movie movie, Date date, int hall_number, ArrayList<Pair<Integer, Integer>> positions);
+    /**
+     * this function  with bad time complexity to book a ticket
+     * @param c : Customer
+     * @param movie
+     * @param date
+     * @param hall_number
+     * @param positions : positions of tickets
+     * @param halls
+     * @param personsPerHour
+     */
+    void bookTickets(Customer c, Movie movie, Date date, int hall_number, ArrayList<Pair<Integer, Integer>> positions); // bad time
+    /**
+     * this function with speed time complexity to book a tickets
+     * @param c : Customer
+     * @param movie
+     * @param p : presentatoin wher user want to book his tickets
+     * @param booking : AL of tickets
+     */
+    void bookTicket(Customer c, Movie movie, Presentation p, ArrayList<Ticket> booking); // speed time
 
-    // to unbook a ticket //! BE CARFULL THIS FUNCTION COULD THROW AN EXCEPTION IF THE TICKET IS NOT TOKEN
-    void unbookTickets(Customer c, Movie movie, Date date, int hall_number, ArrayList<Pair<Integer, Integer>> positions);
+    // to unbook a ticket //! BE CARFULL THIS FUNCTIONs COULD THROW AN EXCEPTION IF THE TICKET IS NOT TOKEN
+    /**
+     * this function  with bad time complexity to unbook a ticket
+     * @param c : Customer
+     * @param movie
+     * @param date
+     * @param hall_number
+     * @param positions : positions of tickets
+     * @param halls
+     * @param personsPerHour
+     */
+    void unbookTickets(Customer c, Movie movie, Date date, int hall_number, ArrayList<Pair<Integer, Integer>> positions); // bad time
+    /**
+     * this function with speed time complexity to unbook a tickets
+     * @param c : Customer
+     * @param movie
+     * @param p : presentatoin wher user want to unbook his tickets
+     * @param booking : AL of tickets
+     */
+    void unbookTicket(Customer c, Movie movie, Presentation p, ArrayList<Ticket> booking); // speed time
 
     // return the price of group from tickets WITH discounts
-    int priceWithDiscounts(Movie movie, Date date, int hall_number, ArrayList<Pair<Integer, Integer>> positions);
+    int priceWithDiscounts(Movie movie, Date date, int hall_number, ArrayList<Pair<Integer, Integer>> positions); // bad time
+    int priceWithDiscounts(ArrayList<Ticket> tickets); // speed time
 
     // return the price of group from tickets WITHOUT discounts
-    int priceWithoutDiscounts(Movie movie, Date date, int hall_number, ArrayList<Pair<Integer, Integer>> positions);
+    int priceWithoutDiscounts(Movie movie, Date date, int hall_number, ArrayList<Pair<Integer, Integer>> positions); // bad time
+    int priceWithoutDiscounts(ArrayList<Ticket> tickets); // speed time
 
-    // boolean 2 functions to add or remove presentation
-    boolean addPresentation(String movieName, int movieID, Date date, int duration, int hall_number);
-    boolean removePresentation(String movieName, int movieID, Date date, int hall_number);
+    // 2 boolean functions to add or remove presentation
+    boolean addPresentation(Movie movie, Date date, int duration, int hall_number);
+    void removePresentation(Movie m, Presentation p);
 
 }
