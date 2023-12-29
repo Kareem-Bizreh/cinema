@@ -230,8 +230,8 @@ public class Cinema implements CanOperation, Serializable {
     }
 
     @Override
-    public void addRate(Movie movie, float rate) {
-        movie.addRate(rate);
+    public boolean addRate(Movie movie, float rate) {
+        return movie.addRate(rate);
     }
 
     @Override

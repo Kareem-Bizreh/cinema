@@ -88,7 +88,7 @@ public interface CanOperation {
     void removePresentation(Movie m, Presentation p);
     
     void addComment(Customer customer, Movie movie, String Comment);
-    void addRate(Movie movie, float rate);
+    boolean addRate(Movie movie, float rate);
 
     Presentation getPresentation(Movie m, Date date, int hall_number);
     Ticket[][] getTickets(Presentation p);
