@@ -1,5 +1,6 @@
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -8,13 +9,16 @@ public class Cinema implements CanOperation, Serializable {
 
     private ArrayList<Customer> customers;
     private ArrayList<Movie> movies;
-    Hall halls[] = new Hall[20];
+    Hall halls[];
     int personsPerHour[];
 
     // unparameterized constructor
     public Cinema() {
         this.personsPerHour = new int[24];
         this.halls = new Hall[20];
+        for(int i = 0; i < 20; i++) {
+            halls[i] = new Hall("Hall" + Integer.valueOf(i + 1), i + 1);
+        }
         this.movies = new ArrayList<>();
         this.customers = new ArrayList<>();
         for (int i = 0; i < 24; i++)
@@ -35,7 +39,7 @@ public class Cinema implements CanOperation, Serializable {
         new Thread(){
             @Override
             public void run() {
-                for(var h : halls) {
+                for(Hall h : halls) {
                     ArrayList<Presentation> a = h.presentationOfMovie(m.ID);
                     for(Presentation p : a) {
                         removePresentation(m, p);
@@ -52,7 +56,7 @@ public class Cinema implements CanOperation, Serializable {
             @Override
             public void run() {
                 Movie m = movies.get(index_of_movie);
-                for(var h : halls) {
+                for(Hall h : halls) {
                     ArrayList<Presentation> a = h.presentationOfMovie(m.ID);
                     for(Presentation p : a) {
                         removePresentation(m, p);
@@ -129,7 +133,7 @@ public class Cinema implements CanOperation, Serializable {
     @Override
     public Customer findCustomer(String name, String password) {
         Customer c = new Customer(name, password);
-        for (var i : customers) {
+        for (Customer i : customers) {
             if (i.equals(c)) {
                 return i;
             }
@@ -202,7 +206,8 @@ public class Cinema implements CanOperation, Serializable {
     }
 
     @Override
-    public boolean addPresentation(Movie movie, Date date, int duration, int hall_number) {
+    public boolean addPresentation(Movie movie, Date date, int hall_number) {
+        int duration = movie.duration;
         if(hall_number >= 20 || hall_number < 0) return false;
         boolean c = halls[hall_number - 1].add_presentation(movie.name, movie.ID, date, duration);
         if(c) movie.addPres(date, hall_number);
@@ -272,6 +277,22 @@ public class Cinema implements CanOperation, Serializable {
     @Override
     public int getChair_number(Ticket t) {
         return t.getChair_number();
+    }
+
+    @Override
+    public ArrayList<Customer> getCustomers() {
+        return customers;
+    }
+
+    @Override
+    public ArrayList<Movie> getMovies() {
+        return movies;
+    }
+
+    @Override
+    public String toString() {
+        return "Cinema [customers=" + customers.toString() + ", movies=" + movies.toString()
+         + ", halls=" + Arrays.toString(halls) + ", personsPerHour=" + Arrays.toString(personsPerHour) + "]";
     }
 
 }

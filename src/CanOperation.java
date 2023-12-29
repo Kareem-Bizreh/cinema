@@ -84,7 +84,7 @@ public interface CanOperation {
     int priceWithoutDiscounts(ArrayList<Ticket> tickets); // speed time
 
     // 2 boolean functions to add or remove presentation
-    boolean addPresentation(Movie movie, Date date, int duration, int hall_number);
+    boolean addPresentation(Movie movie, Date date, int hall_number);
     void removePresentation(Movie m, Presentation p);
     
     void addComment(Customer customer, Movie movie, String Comment);
@@ -97,5 +97,6 @@ public interface CanOperation {
     ArrayList<Presentation> getHall_presentations(int hall_number);
     boolean is_full(Presentation p);
     int getChair_number(Ticket t);
-    
+    ArrayList<Customer> getCustomers();
+    ArrayList<Movie> getMovies();
 }

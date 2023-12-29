@@ -57,4 +57,11 @@ public class Customer {
         return c;
     }
 
+    @Override
+    public String toString() {
+        return "Customer [name=" + name + ", password=" + password + ", ID=" + ID
+                + ", user_tickets=" + user_tickets.toString() + ", movies_ratings="
+                 + movies_ratings.toString() + "]";
+    }
+
 }

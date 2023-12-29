@@ -89,4 +89,10 @@ public class Hall {
         return ans;
     }
 
+    @Override
+    public String toString() {
+        return "Hall [name=" + name + ", number=" + number + ", hall_presentations="
+         + hall_presentations.toString() + "]";
+    }
+
 }

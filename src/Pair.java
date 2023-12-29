@@ -39,7 +39,7 @@ public class Pair<K, V> {
 
     @Override
     public String toString() {
-        return "(" + key + ", " + value + ")";
+        return "Pair [key=" + key.toString() + ", value=" + value.toString() + "]";
     }
-    
+
 }

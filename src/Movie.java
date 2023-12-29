@@ -1,9 +1,3 @@
-/*
-import java.io.File;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Scanner;
-*/
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -89,6 +83,14 @@ public class Movie {
         this.sum_ratings -= c;
         this.sum_ratings += x;
         this.rate = this.sum_ratings / this.number_ratings;
+    }
+
+    @Override
+    public String toString() {
+        return "Movie [name=" + name + ", ID=" + ID + ", duration=" + duration + ", type=" + type.toString() + ", counter="
+                + counter + ", rate=" + rate + ", number_ratings=" + number_ratings + ", sum_ratings=" + sum_ratings
+                + ", showtimes=" + showtimes.toString() + ", date_hall="
+                 + date_hall.toString() + ", comments=" + comments.toString() + "]";
     }
 
 }

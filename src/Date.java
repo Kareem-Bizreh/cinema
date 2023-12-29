@@ -20,5 +20,10 @@ public class Date {
         if(this.day == date.day && this.hour == date.hour) return true;
         return false;
     }
-    
+
+    @Override
+    public String toString() {
+        return "Date [day=" + day.toString() + ", hour=" + hour + "]";
+    }
+
 }

@@ -30,4 +30,11 @@ public class Ticket {
         return chair_number;
     }
 
+    @Override
+    public String toString() {
+        return "Ticket [position=" + position.toString() + ", ticket_price=" + ticket_price
+                 + ", time=" + time.toString() + ", sold=" + sold + ", chair_number="
+                  + chair_number + ", movie_name=" + movie_name + ", hall_name=" + hall_name + "]";
+    }
+
 }

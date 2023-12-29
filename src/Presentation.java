@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class Presentation {
 
     String hall_name;
@@ -42,6 +44,13 @@ public class Presentation {
     public boolean is_full() {
         if(numberSoldTicke == 200) return true;
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return "Presentation [hall_name=" + hall_name + ", hall_number=" + hall_number + ", movie_name=" + movie_name
+                + ", movie_ID=" + movie_ID + ", time=" + time.toString() + ", p_tickets=" + Arrays.toString(p_tickets)
+                + ", numberSoldTicke=" + numberSoldTicke + ", duration=" + duration + "]";
     }
 
 }
