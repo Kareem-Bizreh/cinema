@@ -231,7 +231,12 @@ public class Cinema implements CanOperation, Serializable {
 
     @Override
     public void addRate(Customer user, Movie movie, float rate) {
-        movie.addRate(user, rate);
+        new Thread() {
+            @Override
+            public void run() {
+                movie.addRate(user, rate);
+            }
+        }.start();
     }
 
     @Override
