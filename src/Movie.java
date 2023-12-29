@@ -79,14 +79,16 @@ public class Movie {
         this.comments.add(new Pair<>(name, comment));
     }
 
-    public boolean addRate(float x) {
-        if(x <= 10 && x >= 0) {
-            this.number_ratings++;
+    public void addRate(Customer user, float x) {
+        float c = user.addRate(this.ID, x);
+        if(c == -1) {
             this.sum_ratings += x;
-            this.rate = sum_ratings / number_ratings;
-            return true;
+            this.number_ratings++;
+            this.rate = this.sum_ratings / this.number_ratings;
         }
-        return false;
+        this.sum_ratings -= c;
+        this.sum_ratings += x;
+        this.rate = this.sum_ratings / this.number_ratings;
     }
 
 }
