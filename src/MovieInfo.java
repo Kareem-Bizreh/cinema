@@ -35,7 +35,7 @@ public class MovieInfo extends JFrame {
         text.setForeground(Color.BLUE);
 
         JPanel Info = new JPanel(new GridLayout(4,1));
-        JLabel dur = new JLabel("Duration : " + "3");
+        JLabel dur = new JLabel("Duration : " + "3 hours");
         dur.setFont(new Font("MV Boli", Font.BOLD,20));
         JLabel type = new JLabel("type : " + TypeMovie.SCIENCE_FICTION);
         type.setFont(new Font("MV Boli", Font.BOLD,20));
