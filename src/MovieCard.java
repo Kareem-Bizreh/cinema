@@ -28,11 +28,5 @@ public class MovieCard extends JPanel {
         JButton click = new JButton("Show movie");
         click.setFocusable(false);
         add(click);
-        click.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //next frame
-            }
-        });
     }
 }

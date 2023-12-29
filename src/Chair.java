@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Chair extends JFrame {
-    Chair(){
+    Chair(int x){
         setIconImage(new ImageIcon("cinema/test.png").getImage());
         setResizable(false);
         setSize(600,600);
@@ -56,7 +56,7 @@ public class Chair extends JFrame {
                     }
                 //check how much he will pay
                 dispose();
-                new PaymentWays();
+                new PaymentWays(x);
             }
         });
         Exit.addActionListener(new ActionListener() {
@@ -68,7 +68,8 @@ public class Chair extends JFrame {
         Back.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //movie info frame
+                dispose();
+                new MovieInfo("test",x);
             }
         });
     }

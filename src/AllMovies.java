@@ -25,7 +25,17 @@ public class AllMovies extends JFrame {
         for (int i=0;i<50;i++)
         {
             //add movie
-            panel.add(new MovieCard("test",3.6f,TypeMovie.SCIENCE_FICTION));
+            MovieCard movieCard = new MovieCard("kareem",3.6f,TypeMovie.SCIENCE_FICTION);
+            for(Component component : movieCard.getComponents())
+                if(component instanceof JButton)
+                    ((JButton) component).addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            new MovieInfo("kareem",x);
+                            dispose();
+                        }
+                    });
+            panel.add(movieCard);
         }
         JScrollPane scrollPane = new JScrollPane(panel);
         scrollPane.getVerticalScrollBar().setUnitIncrement(20);

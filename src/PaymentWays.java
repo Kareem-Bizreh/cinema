@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class PaymentWays extends JFrame {
-    PaymentWays() {
+    PaymentWays(int x) {
         setIconImage(new ImageIcon("cinema/test.png").getImage());
         setResizable(false);
         setSize(600,600);
@@ -37,7 +37,7 @@ public class PaymentWays extends JFrame {
                                 "",
                                 JOptionPane.PLAIN_MESSAGE);
                         dispose();
-                        new Chair();
+                        new Chair(x);
                     }
                 });
             }
