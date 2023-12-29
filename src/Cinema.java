@@ -1,4 +1,4 @@
-import java.io.Serializable;
+/*import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
@@ -270,3 +270,4 @@ public class Cinema implements CanOperation, Serializable {
     }
 
 }
+*/
