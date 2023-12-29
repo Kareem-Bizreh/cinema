@@ -35,7 +35,7 @@ public class Cinema implements CanOperation, Serializable {
         new Thread(){
             @Override
             public void run() {
-                for(var h : halls) {
+                for(Hall h : halls) {
                     ArrayList<Presentation> a = h.presentationOfMovie(m.ID);
                     for(Presentation p : a) {
                         removePresentation(m, p);
@@ -52,7 +52,7 @@ public class Cinema implements CanOperation, Serializable {
             @Override
             public void run() {
                 Movie m = movies.get(index_of_movie);
-                for(var h : halls) {
+                for(Hall h : halls) {
                     ArrayList<Presentation> a = h.presentationOfMovie(m.ID);
                     for(Presentation p : a) {
                         removePresentation(m, p);
@@ -129,7 +129,7 @@ public class Cinema implements CanOperation, Serializable {
     @Override
     public Customer findCustomer(String name, String password) {
         Customer c = new Customer(name, password);
-        for (var i : customers) {
+        for (Customer i : customers) {
             if (i.equals(c)) {
                 return i;
             }
