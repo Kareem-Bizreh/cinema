@@ -48,8 +48,13 @@ public class Presentation {
 
     @Override
     public String toString() {
+        String toString_p_tickets = "";
+        for(int i = 0; i < 20; i++) {
+            toString_p_tickets += Arrays.toString(p_tickets[i]);
+            toString_p_tickets += "\n";
+        }
         return "Presentation [hall_name=" + hall_name + ", hall_number=" + hall_number + ", movie_name=" + movie_name
-                + ", movie_ID=" + movie_ID + ", time=" + time.toString() + ", p_tickets=" + Arrays.toString(p_tickets)
+                + ", movie_ID=" + movie_ID + ", time=" + time.toString() + ", p_tickets=" + toString_p_tickets
                 + ", numberSoldTicke=" + numberSoldTicke + ", duration=" + duration + "]";
     }
 

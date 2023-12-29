@@ -19,8 +19,10 @@ public class Movie {
         this.name = name;
         this.type = type;
         this.ID = movieID;
+        this.duration = duration;
         rate = 5;
         this.number_ratings = 0;
+        this.sum_ratings = 0;
         movieID++;
         this.showtimes = new HashMap<>();
         this.comments = new ArrayList<>();
@@ -79,6 +81,7 @@ public class Movie {
             this.sum_ratings += x;
             this.number_ratings++;
             this.rate = this.sum_ratings / this.number_ratings;
+            return;
         }
         this.sum_ratings -= c;
         this.sum_ratings += x;
