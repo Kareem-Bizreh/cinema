@@ -81,6 +81,11 @@ public class Movie {
 
     public void addRate(Customer user, float x) {
         float c = user.addRate(this.ID, x);
+        if(c == -1) {
+            this.sum_ratings += x;
+            this.number_ratings++;
+            this.rate = this.sum_ratings / this.number_ratings;
+        }
         this.sum_ratings -= c;
         this.sum_ratings += x;
         this.rate = this.sum_ratings / this.number_ratings;
