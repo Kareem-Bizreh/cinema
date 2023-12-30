@@ -3,9 +3,10 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class MyTickets extends JFrame {
-    MyTickets(){
+    MyTickets(Cinema c , Customer customer){
         setIconImage(new ImageIcon("cinema/test.png").getImage());
         setResizable(false);
         setSize(700,450);
@@ -19,11 +20,19 @@ public class MyTickets extends JFrame {
         Back.setFocusable(false);
         JButton Calncel = new JButton("cancel reservation");
         Calncel.setFocusable(false);
-        String[] columnNames = {"Hall", "Movie", "location" , "Start time" , "Duration"};
-        // size = size tickets
-        Object[][] data={
-                {"1 ","2","2","3","5"},
-        };
+        String[] columnNames = {"Hall", "Movie", "position" , "Start time" , "Price"};
+
+        ArrayList<Ticket>tickets = customer.user_tickets;
+
+        String[][] data=new String[tickets.size()][5];
+        for(int i=0;i<tickets.size();i++)
+        {
+            data[i][0]=tickets.get(i).hall_name;
+            data[i][1]=tickets.get(i).movie_name;
+            data[i][2]=tickets.get(i).position.getKey() + "," + tickets.get(i).position.getValue();
+            data[i][3]= String.valueOf(tickets.get(i).time.hour);
+            data[i][4]= String.valueOf(tickets.get(i).ticket_price);
+        }
         DefaultTableModel model = new DefaultTableModel(data, columnNames){
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -53,13 +62,21 @@ public class MyTickets extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                new UserInfo();
+                new UserInfo(c,customer);
             }
         });
         Calncel.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //Logic
+                int row = table.getSelectedRow();
+                if(row==-1){
+                    JOptionPane.showMessageDialog(null,
+                            "choose the ticket",
+                            "",JOptionPane.INFORMATION_MESSAGE);
+                    return;
+                }
+                String s = (String) table.getValueAt(row,1);
+                //c.unbookTicket(customer,c.findMovie(s),);
             }
         });
     }

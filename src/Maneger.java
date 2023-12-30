@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Maneger extends JFrame {
-    Maneger(){
+    Maneger(Cinema c){
         setIconImage(new ImageIcon("cinema/test.png").getImage());
         setResizable(false);
         setSize(700,400);
@@ -40,14 +40,14 @@ public class Maneger extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                new Welcome();
+                new Welcome(c);
             }
         });
         delete.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                new DeleteMovies();
+                new DeleteMovies(c);
             }
         });
         ChangePassword.addActionListener(new ActionListener() {
@@ -62,20 +62,21 @@ public class Maneger extends JFrame {
                             "Error",JOptionPane.ERROR_MESSAGE);
                     return;
                 }
+                //change
             }
         });
         add.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                new AddMovie();
+                new AddMovie(c);
             }
         });
         all.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                new AllMovies(1);
+                new AllMovies(c,c.findCustomer("maneger","1234"),1);
             }
         });
         add(panel);

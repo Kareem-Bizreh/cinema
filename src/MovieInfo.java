@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 
 public class MovieInfo extends JFrame {
     JPanel panel;
-    MovieInfo(String name,int x){
+    MovieInfo(Cinema c,Customer customer,Movie movie,int x){
         setIconImage(new ImageIcon("cinema/test.png").getImage());
         setResizable(false);
         setSize(650,650);
@@ -24,23 +24,27 @@ public class MovieInfo extends JFrame {
         scrollPane.setPreferredSize(new Dimension(400, 300));
         scrollPane.getVerticalScrollBar().setUnitIncrement(20);
         //add already comments on AL comment
-        //for(int i=0---->n) addComment(name,comment);
-        addComment(name,null);
+        for(Pair<String,String> com: movie.comments)
+        {
+            addComment(c,customer,movie,com.getKey(), com.getValue(),0);
+        }
+        addComment(c,customer,movie,customer.name,null,0);
 
         JButton add = new JButton("Add Comment");
         add.setFocusable(false);
-        JLabel text=new JLabel(name);
+        JLabel text=new JLabel(customer.name);
         text.setFont(new Font("Arial", Font.BOLD, 40));
         text.setBounds(230,10,250,50);
         text.setForeground(Color.BLUE);
 
         JPanel Info = new JPanel(new GridLayout(4,1));
-        JLabel dur = new JLabel("Duration : " + "3 hours");
+        JLabel dur = new JLabel("Duration : " + movie.duration);
         dur.setFont(new Font("MV Boli", Font.BOLD,20));
-        JLabel type = new JLabel("type : " + TypeMovie.SCIENCE_FICTION);
+        JLabel type = new JLabel("type : " + movie.type);
         type.setFont(new Font("MV Boli", Font.BOLD,20));
-        JLabel rate = new JLabel("full rate : " + Float.toString(5.5f));
+        JLabel rate = new JLabel("full rate : " + movie.rate);
         rate.setFont(new Font("MV Boli", Font.BOLD,20));
+        //hours
         JLabel hour = new JLabel("Busiest hour : " + "10:00");
         hour.setFont(new Font("MV Boli", Font.BOLD,20));
         Info.add(dur);
@@ -53,9 +57,10 @@ public class MovieInfo extends JFrame {
 
         JComboBox times = new JComboBox();
         //add items to times
-        //test
-        for (int i=0;i<10;i++)
-            times.addItem("Hall : 1  time : 10:00");
+        for (Pair<Date,Integer> p :movie.date_hall)
+        {
+            times.addItem("Hall : " + p.getValue() + "time : " +p.getKey().hour+":00 hour");
+        }
 
         JSlider ratingSlider = new JSlider(JSlider.HORIZONTAL, 0, 10, 0);
         ratingSlider.setMajorTickSpacing(1);
@@ -90,7 +95,7 @@ public class MovieInfo extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                new AllMovies(x);
+                new AllMovies(c, customer, x);
             }
         });
         Exit.addActionListener(new ActionListener() {
@@ -102,30 +107,38 @@ public class MovieInfo extends JFrame {
         add.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                addComment(name,null);
+                addComment(c,customer,movie,customer.name,null,0);
             }
         });
         reserve.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                new Chair(x);
+                new Chair(c , customer ,
+                        movie,c.getPresentation(movie,
+                        movie.date_hall.get(times.getSelectedIndex()).getKey(),
+                        movie.date_hall.get(times.getSelectedIndex()).getValue()),x);
             }
         });
         ratingButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //Logic
+                c.addRate(customer,movie,ratingSlider.getValue());
+                JOptionPane.showMessageDialog(null,
+                        "rating complete",
+                        "Accept",JOptionPane.INFORMATION_MESSAGE);
             }
         });
     }
     private JTextArea previousCommentTextArea = null;
-    private void addComment(String Name,String comment) {
+    private void addComment(Cinema c,Customer customer,Movie movie,String Name,String comment,int x) {
         if (previousCommentTextArea != null) {
             if(previousCommentTextArea.getText().isEmpty())
                 return;
             previousCommentTextArea.setEditable(false);
             previousCommentTextArea.setForeground(Color.red);
+            if(x!=0)
+                c.addComment(customer,movie,previousCommentTextArea.getText());
         }
         JPanel commentPanel = new JPanel();
         commentPanel.setLayout(new BoxLayout(commentPanel, BoxLayout.Y_AXIS));

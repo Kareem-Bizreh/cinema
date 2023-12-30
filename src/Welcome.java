@@ -7,7 +7,7 @@ public class Welcome extends JFrame {
     JLabel text=new JLabel("Welcome to our cinema");
     JButton b1,b2,b3;
     ImageIcon m;
-    Welcome(){
+    Welcome(Cinema c){
         setSize(550,500);
         setResizable(false);
         setIconImage(new ImageIcon("cinema/test.png").getImage());
@@ -39,7 +39,7 @@ public class Welcome extends JFrame {
                     return;
                 }
                 if(password.equals("1234")){
-                    new Maneger();
+                    new Maneger(c);
                     dispose();
                 }
                 else
@@ -52,7 +52,7 @@ public class Welcome extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                new Log();
+                new Log(c);
             }
         });
         b3.addActionListener(new ActionListener() {

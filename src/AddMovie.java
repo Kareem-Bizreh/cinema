@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class AddMovie extends JFrame {
-    AddMovie(){
+    AddMovie(Cinema c){
         setIconImage(new ImageIcon("cinema/test.png").getImage());
         setResizable(false);
         setSize(720,550);
@@ -50,7 +50,10 @@ public class AddMovie extends JFrame {
         JLabel duration = new JLabel("Duration");
         duration.setFont(new Font("MV Boli",Font.PLAIN,20));
         duration.setForeground(Color.RED);
-        JComboBox<Integer> dur = new JComboBox();
+        String []time=new String[5];
+        for(int i=1;i<=5;i++)
+            time[i-1]=Integer.toString(i);
+        JComboBox<Integer> dur = new JComboBox(time);
         dur.setEnabled(false);
         mainPanel.add(duration);
         mainPanel.add(dur);
@@ -85,7 +88,7 @@ public class AddMovie extends JFrame {
         hallComboBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // add time
+                int hall = hallComboBox.getSelectedIndex();
                 timeComboBox.addItem("100");
                 timeComboBox.setEnabled(true);
                 dur.setEnabled(false);
@@ -110,7 +113,7 @@ public class AddMovie extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                new Maneger();
+                new Maneger(c);
             }
         });
         Exit.addActionListener(new ActionListener() {
@@ -122,7 +125,17 @@ public class AddMovie extends JFrame {
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //Logic
+                if(c.addMovie(nameTextField.getText(),dur.getSelectedIndex()+1, (TypeMovie) typeComboBox.getSelectedItem())){
+                    JOptionPane.showConfirmDialog(null,
+                            "Your Add has been completed successfully",
+                            "",
+                            JOptionPane.PLAIN_MESSAGE);
+                }
+                else
+                    JOptionPane.showConfirmDialog(null,
+                            "add failed",
+                            "",
+                            JOptionPane.ERROR_MESSAGE);
             }
         });
     }

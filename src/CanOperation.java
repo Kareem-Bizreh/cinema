@@ -41,8 +41,6 @@ public interface CanOperation {
      * @param date
      * @param hall_number
      * @param positions : positions of tickets
-     * @param halls
-     * @param personsPerHour
      */
     void bookTickets(Customer c, Movie movie, Date date, int hall_number, ArrayList<Pair<Integer, Integer>> positions); // bad time
     /**
@@ -62,8 +60,6 @@ public interface CanOperation {
      * @param date
      * @param hall_number
      * @param positions : positions of tickets
-     * @param halls
-     * @param personsPerHour
      */
     void unbookTickets(Customer c, Movie movie, Date date, int hall_number, ArrayList<Pair<Integer, Integer>> positions); // bad time
     /**

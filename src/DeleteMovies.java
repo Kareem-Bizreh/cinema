@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class DeleteMovies extends JFrame {
-    DeleteMovies(){
+    DeleteMovies(Cinema c){
         setIconImage(new ImageIcon("cinema/test.png").getImage());
         setResizable(false);
         setSize(700,450);
@@ -18,11 +18,15 @@ public class DeleteMovies extends JFrame {
         Back.setFocusable(false);
         JButton deleteFilm = new JButton("Delete film");
         deleteFilm.setFocusable(false);
-        String[] columnNames = {"Hall", "Movie", "Start time" , "Duration"};
+        String[] columnNames = {"Movie", "Duration" ,"Type"};
         // size = size tickets
-        Object[][] data={
-                {"1 ","2","2","3"},
-        };
+        Object[][] data = new Object[c.getMovies().size()][3];
+        for(int i=0;i<c.getMovies().size();i++)
+        {
+            data[i][0]=c.getMovies().get(i).name;
+            data[i][1]=c.getMovies().get(i).duration;
+            data[i][2]=c.getMovies().get(i).type;
+        }
         DefaultTableModel model = new DefaultTableModel(data, columnNames){
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -52,13 +56,19 @@ public class DeleteMovies extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                new Maneger();
+                new Maneger(c);
             }
         });
         deleteFilm.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //Logic
+                c.removeMovie(table.getSelectedRow());
+                JOptionPane.showConfirmDialog(null,
+                        "Your deletion has been completed successfully",
+                        "",
+                        JOptionPane.PLAIN_MESSAGE);
+                dispose();
+                new Maneger(c);
             }
         });
     }

@@ -235,7 +235,7 @@ public class Cinema implements CanOperation, Serializable {
     }
 
     @Override
-    public void addRate(Customer user, Movie movie, float rate) {
+    public synchronized void addRate(Customer user, Movie movie, float rate) {
         new Thread() {
             @Override
             public void run() {
@@ -295,4 +295,11 @@ public class Cinema implements CanOperation, Serializable {
          + ", halls=" + Arrays.toString(halls) + ", personsPerHour=" + Arrays.toString(personsPerHour) + "]";
     }
 
+    public Movie findMovie(String name){
+        for(Movie m : movies){
+            if(m.name.equals(name))
+                return m;
+        }
+        return null;
+    }
 }

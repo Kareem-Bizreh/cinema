@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 public class AllMovies extends JFrame {
-    AllMovies(int x){
+    AllMovies(Cinema c,Customer customer,int x){
         setIconImage(new ImageIcon("cinema/test.png").getImage());
         setResizable(false);
         setSize(600,520);
@@ -22,16 +22,16 @@ public class AllMovies extends JFrame {
         gridLayout.setVgap(5);
         JPanel panel = new JPanel(gridLayout);
         panel.setBackground(Color.BLACK);
-        for (int i=0;i<50;i++)
+        for (Movie m: c.getMovies())
         {
             //add movie
-            MovieCard movieCard = new MovieCard("kareem",3.6f,TypeMovie.SCIENCE_FICTION);
+            MovieCard movieCard = new MovieCard(m.name,m.rate,m.type);
             for(Component component : movieCard.getComponents())
                 if(component instanceof JButton)
                     ((JButton) component).addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                            new MovieInfo("kareem",x);
+                            new MovieInfo(c,customer,c.findMovie(m.name),x);
                             dispose();
                         }
                     });
@@ -62,9 +62,9 @@ public class AllMovies extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 dispose();
                 if(x==2)
-                    new UserInfo();
+                    new UserInfo(c,customer);
                 else
-                    new Maneger();
+                    new Maneger(c);
             }
         });
     }

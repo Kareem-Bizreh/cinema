@@ -65,7 +65,6 @@ public class Ticketing {
             sum /= 2;
         }
         else if(positions.size() >= 5) {
-            sum *= 3;
             sum /= 4;
         }
         return sum;

@@ -2,9 +2,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class Chair extends JFrame {
-    Chair(int x){
+    Chair(Cinema c , Customer customer,Movie movie ,Presentation presentation ,int x){
         setIconImage(new ImageIcon("cinema/test.png").getImage());
         setResizable(false);
         setSize(600,600);
@@ -18,16 +19,24 @@ public class Chair extends JFrame {
         setLayout(null);
         JPanel panel = new JPanel(new GridLayout(10,20,5,10));
         panel.setBackground(Color.BLACK);
-        JCheckBox [][]chairs = new JCheckBox[10][20];
-        for (int i=0;i<10;i++)
-            for (int j=0;j<20;j++)
+        JCheckBox [][]chairs = new JCheckBox[20][10];
+        for (int i=0;i<20;i++)
+            for (int j=0;j<10;j++)
             {
                 chairs[i][j] = new JCheckBox();
                 panel.add(chairs[i][j]);
                 chairs[i][j].setBackground(Color.BLACK);
             }
         //put the chair in red
-        //for(int i=0--->n)
+        for(int i=0;i<20;i++)
+            for (int j=0;j<10;j++)
+            {
+                if(presentation.p_tickets[i][j].sold)
+                {
+                    chairs[i][j].setEnabled(false);
+                    chairs[i][j].setBackground(Color.RED);
+                }
+            }
         JLabel chair = new JLabel("Choose the chairs you want to reserve");
         chair.setFont(new Font("MV Boli",Font.PLAIN,30));
         chair.setForeground(Color.RED);
@@ -44,19 +53,20 @@ public class Chair extends JFrame {
         add(Back);
         add(Exit);
         reserve.addActionListener(new ActionListener() {
+            ArrayList<Ticket> tickets = new ArrayList<>();
             @Override
             public void actionPerformed(ActionEvent e) {
-                for (int i=0;i<10;i++)
-                    for (int j=0;j<20;j++)
+                for (int i=0;i<20;i++)
+                    for (int j=0;j<10;j++)
                     {
                         if(chairs[i][j].isSelected()) {
-                            chairs[i][j].setEnabled(false);
-                            chairs[i][j].setBackground(Color.RED);
+                            tickets.add(presentation.p_tickets[i][j]);
                         }
                     }
+                c.bookTicket(customer,movie,presentation,tickets);
                 //check how much he will pay
                 dispose();
-                new PaymentWays(x);
+                new PaymentWays(c,customer,movie,presentation,tickets,x);
             }
         });
         Exit.addActionListener(new ActionListener() {
@@ -69,7 +79,7 @@ public class Chair extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                new MovieInfo("test",x);
+                new MovieInfo(c,customer,movie,x);
             }
         });
     }

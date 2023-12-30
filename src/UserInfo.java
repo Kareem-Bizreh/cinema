@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class UserInfo extends JFrame {
-    UserInfo(){
+    UserInfo(Cinema c, Customer customer){
         setIconImage(new ImageIcon("cinema/test.png").getImage());
         setResizable(false);
         setSize(700,400);
@@ -16,7 +16,7 @@ public class UserInfo extends JFrame {
         JButton Back = new JButton("Back");
         Back.setFocusable(false);
         setLayout(null);
-        JLabel text = new JLabel("Welcome ");
+        JLabel text = new JLabel("Welcome " +  customer.name);
         JPanel panel = new JPanel(new GridLayout(3,2,10,10));
         text.setFont(new Font("MV Boli",Font.BOLD,25));
         text.setBounds(100,0,700,80);
@@ -47,7 +47,7 @@ public class UserInfo extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                new Log();
+                new Log(c);
             }
         });
         ChangeName.addActionListener(new ActionListener() {
@@ -89,7 +89,7 @@ public class UserInfo extends JFrame {
         MyTicket.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new MyTickets();
+                new MyTickets(c,customer);
                 dispose();
             }
         });
@@ -97,7 +97,7 @@ public class UserInfo extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                new AllMovies(2);
+                new AllMovies(c,customer,2);
             }
         });
     }

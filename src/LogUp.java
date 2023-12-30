@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class LogUp extends JFrame {
-    LogUp(){
+    LogUp(Cinema c){
         setIconImage(new ImageIcon("cinema/test.png").getImage());
         setResizable(false);
         setSize(700,400);
@@ -43,9 +43,17 @@ public class LogUp extends JFrame {
                             "Error",JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                //Logic (check if is a user with the same name exist)
-                dispose();
-                new UserInfo();
+                if(c.addCustomer(username,password))
+                {
+                    dispose();
+                    new UserInfo(c,c.findCustomer(username,password));
+                }
+                else {
+                    JOptionPane.showMessageDialog(null,
+                            "Information is invalid",
+                            "Error",JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
             }
         });
         Exit.addActionListener(new ActionListener() {
@@ -58,7 +66,7 @@ public class LogUp extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                new Log();
+                new Log(c);
             }
         });
         JPanel panel = new JPanel(new GridLayout(5, 2));
