@@ -38,7 +38,7 @@ public class Welcome extends JFrame {
                             "Error",JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                if(password.equals("1234")){
+                if(c.findCustomer("maneger",password)!=null){
                     new Maneger(c);
                     dispose();
                 }

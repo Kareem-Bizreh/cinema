@@ -2,9 +2,10 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
-public class DeleteMovies extends JFrame {
-    DeleteMovies(Cinema c){
+public class RemovePre extends JFrame {
+    RemovePre(Cinema c){
         setIconImage(new ImageIcon("cinema/test.png").getImage());
         setResizable(false);
         setSize(700,450);
@@ -16,17 +17,28 @@ public class DeleteMovies extends JFrame {
         Exit.setFocusable(false);
         JButton Back = new JButton("Back");
         Back.setFocusable(false);
-        JButton deleteFilm = new JButton("Delete film");
-        deleteFilm.setFocusable(false);
-        String[] columnNames = {"Movie", "Duration" ,"Type"};
-        // size = size tickets
-        Object[][] data = new Object[c.getMovies().size()][3];
-        for(int i=0;i<c.getMovies().size();i++)
-        {
-            data[i][0]=c.getMovies().get(i).name;
-            data[i][1]=c.getMovies().get(i).duration;
-            data[i][2]=c.getMovies().get(i).type;
+        JButton Calncel = new JButton("Delete presentation");
+        Calncel.setFocusable(false);
+        String[] columnNames = {"Hall", "Movie", "Start time" , "Duration"};
+
+        int size=0;
+        ArrayList<Movie> movies = c.getMovies();
+        for(Movie m:movies){
+            size+=m.date_hall.size();
         }
+
+        String[][] data=new String[size][4];
+
+        for(Movie m:movies)
+        {
+            for(int i=0;i<m.date_hall.size();i++){
+                data[i][0]= String.valueOf(m.date_hall.get(i).getValue());
+                data[i][1]=m.name;
+                data[i][2]= String.valueOf(m.date_hall.get(i).getKey().hour);
+                data[i][3]= String.valueOf(m.duration);
+            }
+        }
+
         DefaultTableModel model = new DefaultTableModel(data, columnNames){
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -40,10 +52,10 @@ public class DeleteMovies extends JFrame {
         scrollPane.setViewportView(table);
         scrollPane.setBounds(10, 10, 680, 250);
         add(scrollPane);
-        deleteFilm.setBounds(530,270,150,50);
+        Calncel.setBounds(530,270,150,50);
         Back.setBounds(20,270,100,50);
         Exit.setBounds(580,340,100,50);
-        add(deleteFilm);
+        add(Calncel);
         add(Back);
         add(Exit);
         Exit.addActionListener(new ActionListener() {
@@ -59,28 +71,36 @@ public class DeleteMovies extends JFrame {
                 new Maneger(c);
             }
         });
-        deleteFilm.addActionListener(new ActionListener() {
+        Calncel.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(table.getSelectedRow()==-1)
-                {
+                int row = table.getSelectedRow();
+                if(row==-1){
                     JOptionPane.showMessageDialog(null,
-                            "choose the film",
+                            "choose the presentation",
                             "",JOptionPane.INFORMATION_MESSAGE);
                     return;
                 }
-                c.removeMovie(table.getSelectedRow());
-                JOptionPane.showConfirmDialog(null,
-                        "Your deletion has been completed successfully",
-                        "",
-                        JOptionPane.PLAIN_MESSAGE);
-                // size = size tickets
-                Object[][] data = new Object[c.getMovies().size()][3];
-                for(int i=0;i<c.getMovies().size();i++)
+                Movie movie = c.findMovie((String) table.getValueAt(row,1));
+                c.removePresentation(movie,c.getPresentation(movie,
+                        movie.date_hall.get(row).getKey(),
+                        movie.date_hall.get(row).getValue()));
+                int size=0;
+                ArrayList<Movie> movies = c.getMovies();
+                for(Movie m:movies){
+                    size+=m.date_hall.size();
+                }
+
+                String[][] data=new String[size][4];
+
+                for(Movie m:movies)
                 {
-                    data[i][0]=c.getMovies().get(i).name;
-                    data[i][1]=c.getMovies().get(i).duration;
-                    data[i][2]=c.getMovies().get(i).type;
+                    for(int i=0;i<m.date_hall.size();i++){
+                        data[i][0]= String.valueOf(m.date_hall.get(i).getValue());
+                        data[i][1]=m.name;
+                        data[i][2]= String.valueOf(m.date_hall.get(i).getKey().hour);
+                        data[i][3]= String.valueOf(m.duration);
+                    }
                 }
                 model.setDataVector(data,columnNames);
             }
