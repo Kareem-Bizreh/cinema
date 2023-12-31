@@ -41,15 +41,13 @@ public class Ticketing {
         }
     }
 
-    public void unbookTicket(Customer c, Movie movie, Presentation p, ArrayList<Ticket> booking, int[] personsPerHour) {
-        for(Ticket t : booking) {
-            t.sold = false;
-            c.user_tickets.remove(t);
-            p.numberSoldTicke--;
-            movie.counter--;
-            movie.showtimes.compute(t.time, (k, v) -> (v == null) ? 0 : v - 1);
-            personsPerHour[t.time.hour]--;
-        }
+    public void unbookTicket(Customer c, Movie movie, Presentation p, Ticket t, int[] personsPerHour) {
+        t.sold = false;
+        c.user_tickets.remove(t);
+        p.numberSoldTicke--;
+        movie.counter--;
+        movie.showtimes.compute(t.time, (k, v) -> (v == null) ? 0 : v - 1);
+        personsPerHour[t.time.hour]--;
     }
 
     public int priceWithDiscounts(Movie movie, Date date, int hall_number, ArrayList<Pair<Integer, Integer>> positions,

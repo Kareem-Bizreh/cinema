@@ -36,40 +36,22 @@ public interface CanOperation {
     // to book a ticket for a user
     /**
      * this function  with bad time complexity to book a ticket
-     * @param c : Customer
-     * @param movie
-     * @param date
-     * @param hall_number
-     * @param positions : positions of tickets
      */
-    void bookTickets(Customer c, Movie movie, Date date, int hall_number, ArrayList<Pair<Integer, Integer>> positions); // bad time
+    void bookTickets(Customer c, Movie movie, Date date, int hall_number, ArrayList<Pair<Integer, Integer>> positions, Thread t); // bad time
     /**
      * this function with speed time complexity to book a tickets
-     * @param c : Customer
-     * @param movie
-     * @param p : presentatoin wher user want to book his tickets
-     * @param booking : AL of tickets
      */
-    void bookTicket(Customer c, Movie movie, Presentation p, ArrayList<Ticket> booking); // speed time
+    void bookTicket(Customer c, Movie movie, Presentation p, ArrayList<Ticket> booking, Thread t); // speed time
 
     // to unbook a ticket //! BE CARFULL THIS FUNCTIONs COULD THROW AN EXCEPTION IF THE TICKET IS NOT TOKEN
     /**
      * this function  with bad time complexity to unbook a ticket
-     * @param c : Customer
-     * @param movie
-     * @param date
-     * @param hall_number
-     * @param positions : positions of tickets
      */
     void unbookTickets(Customer c, Movie movie, Date date, int hall_number, ArrayList<Pair<Integer, Integer>> positions); // bad time
     /**
      * this function with speed time complexity to unbook a tickets
-     * @param c : Customer
-     * @param movie
-     * @param p : presentatoin wher user want to unbook his tickets
-     * @param booking : AL of tickets
      */
-    void unbookTicket(Customer c, Movie movie, Presentation p, ArrayList<Ticket> booking); // speed time
+    void unbookTicket(Customer c, Ticket t); // speed time
 
     // return the price of group from tickets WITH discounts
     int priceWithDiscounts(Movie movie, Date date, int hall_number, ArrayList<Pair<Integer, Integer>> positions); // bad time
@@ -95,4 +77,5 @@ public interface CanOperation {
     int getChair_number(Ticket t);
     ArrayList<Customer> getCustomers();
     ArrayList<Movie> getMovies();
+    Movie findMovie(String name);
 }

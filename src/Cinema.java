@@ -24,7 +24,7 @@ public class Cinema implements CanOperation, Serializable {
     @Override
     public boolean addMovie(String name, int duration, TypeMovie type) {
         for (int i = 0; i < movies.size(); i++)
-            if (Objects.equals(movies.get(i).name, name))
+            if (movies.get(i).name.equals(name))
                 return false;
         movies.add(new Movie(name, duration, type));
         return true;
@@ -32,7 +32,7 @@ public class Cinema implements CanOperation, Serializable {
 
     @Override
     public void removeMovie(Movie m) {
-        new Thread(){
+        new Thread() {
             @Override
             public void run() {
                 for(Hall h : halls) {
@@ -48,7 +48,7 @@ public class Cinema implements CanOperation, Serializable {
 
     @Override
     public void removeMovie(int index_of_movie) {
-        new Thread(){
+        new Thread() {
             @Override
             public void run() {
                 Movie m = movies.get(index_of_movie);
@@ -139,29 +139,29 @@ public class Cinema implements CanOperation, Serializable {
 
     @Override
     public void bookTickets(Customer c, Movie movie, Date date, int hall_number,
-                            ArrayList<Pair<Integer, Integer>> positions) {
-        new Thread(){
+                            ArrayList<Pair<Integer, Integer>> positions, Thread t) {
+        t = new Thread(){
             @Override
             public void run() {
                 new Ticketing().bookTicket(c,movie,date,hall_number, positions, halls, personsPerHour);
             }
-        }.start();
+        }; t.start();
     }
 
     @Override
-    public void bookTicket(Customer c, Movie movie, Presentation p, ArrayList<Ticket> booking) {
-        new Thread(){
+    public void bookTicket(Customer c, Movie movie, Presentation p, ArrayList<Ticket> booking, Thread t) {
+        t = new Thread() {
             @Override
             public void run() {
                 new Ticketing().bookTicket(c, movie, p, booking, personsPerHour);
             }
-        }.start();
+        }; t.start();
     }
 
     @Override
     public void unbookTickets(Customer c, Movie movie, Date date, int hall_number,
                             ArrayList<Pair<Integer, Integer>> positions) {
-        new Thread(){
+        new Thread() {
             @Override
             public void run() {
                 new Ticketing().unbookTicket(c, movie, date, hall_number, positions, halls, personsPerHour);
@@ -170,11 +170,13 @@ public class Cinema implements CanOperation, Serializable {
     }
 
     @Override
-    public void unbookTicket(Customer c, Movie movie, Presentation p, ArrayList<Ticket> booking) {
-        new Thread(){
+    public void unbookTicket(Customer c, Ticket t) {
+        new Thread() {
             @Override
             public void run() {
-                new Ticketing().unbookTicket(c, movie, p, booking, personsPerHour);
+                Movie movie = findMovie(t.movie_name);
+                Presentation p = getPresentation(movie, t.time, convert(t.hall_name));
+                new Ticketing().unbookTicket(c, movie, p, t, personsPerHour);
             }
         }.start();
     }
@@ -212,7 +214,7 @@ public class Cinema implements CanOperation, Serializable {
 
     @Override
     public void removePresentation(Movie m, Presentation p) {
-        new Thread(){
+        new Thread() {
             @Override
             public void run() {
                 int n = halls[p.hall_number - 1].remove_presentation(p);
@@ -227,7 +229,12 @@ public class Cinema implements CanOperation, Serializable {
 
     @Override
     public void addComment(Customer customer, Movie movie, String Comment) {
-        movie.addComment(customer.name, Comment);
+        new Thread() {
+            @Override
+            public void run() {
+                movie.addComment(customer.name, Comment);
+            }
+        }.start();
     }
 
     @Override
@@ -286,16 +293,24 @@ public class Cinema implements CanOperation, Serializable {
     }
 
     @Override
-    public String toString() {
-        return "Cinema [customers=" + customers.toString() + ", movies=" + movies.toString()
-         + ", halls=" + Arrays.toString(halls) + ", personsPerHour=" + Arrays.toString(personsPerHour) + "]";
-    }
-
-    public Movie findMovie(String name){
+    public Movie findMovie(String name) {
         for(Movie m : movies){
             if(m.name.equals(name))
                 return m;
         }
         return null;
     }
+
+    private int convert(String hall_name) {
+        String s = hall_name.substring(5);
+        int ans = Integer.parseInt(s);
+        return ans;
+    }
+
+    @Override
+    public String toString() {
+        return "Cinema [customers=" + customers.toString() + ", movies=" + movies.toString()
+         + ", halls=" + Arrays.toString(halls) + ", personsPerHour=" + Arrays.toString(personsPerHour) + "]";
+    }
+
 }
