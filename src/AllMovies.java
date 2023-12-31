@@ -31,8 +31,8 @@ public class AllMovies extends JFrame {
                     ((JButton) component).addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                            new MovieInfo(c,customer,c.findMovie(m.name),x);
                             dispose();
+                            new MovieInfo(c,customer,m,x);
                         }
                     });
             panel.add(movieCard);

@@ -1,9 +1,5 @@
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class Cinema implements CanOperation, Serializable {
 
@@ -28,7 +24,7 @@ public class Cinema implements CanOperation, Serializable {
     @Override
     public boolean addMovie(String name, int duration, TypeMovie type) {
         for (int i = 0; i < movies.size(); i++)
-            if (movies.get(i).name == name)
+            if (Objects.equals(movies.get(i).name, name))
                 return false;
         movies.add(new Movie(name, duration, type));
         return true;

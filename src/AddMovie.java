@@ -20,7 +20,7 @@ public class AddMovie extends JFrame {
         text.setFont(new Font("Arial", Font.ITALIC, 40));
         text.setForeground(Color.BLUE);
         JPanel mainPanel = new JPanel();
-        mainPanel.setLayout(new GridLayout(5, 2));
+        mainPanel.setLayout(new GridLayout(3, 2));
         JLabel typeLabel = new JLabel("Movie Type:");
         typeLabel.setFont(new Font("MV Boli",Font.PLAIN,20));
         typeLabel.setForeground(Color.RED);
@@ -28,25 +28,6 @@ public class AddMovie extends JFrame {
         JComboBox<TypeMovie> typeComboBox = new JComboBox<>(movieTypes);
         mainPanel.add(typeLabel);
         mainPanel.add(typeComboBox);
-        JLabel hallLabel = new JLabel("Movie Hall:");
-        hallLabel.setFont(new Font("MV Boli",Font.PLAIN,20));
-        hallLabel.setForeground(Color.RED);
-        String[] halls = new String[20];
-        for (int i = 0; i < 20; i++) {
-            halls[i] = "Hall " + (i + 1);
-        }
-        JComboBox<String> hallComboBox = new JComboBox<>(halls);
-        hallComboBox.setEnabled(false);
-        mainPanel.add(hallLabel);
-        mainPanel.add(hallComboBox);
-        JLabel timeLabel = new JLabel("Start Time:");
-        timeLabel.setFont(new Font("MV Boli",Font.PLAIN,20));
-        timeLabel.setForeground(Color.RED);
-        JComboBox<String> timeComboBox = new JComboBox<>();
-        timeComboBox.setEnabled(false);
-        mainPanel.add(timeLabel);
-        mainPanel.add(timeComboBox);
-        timeComboBox.setEnabled(false);
         JLabel duration = new JLabel("Duration");
         duration.setFont(new Font("MV Boli",Font.PLAIN,20));
         duration.setForeground(Color.RED);
@@ -68,7 +49,7 @@ public class AddMovie extends JFrame {
         mainPanel.add(nameLabel);
         mainPanel.add(nameTextField);
         text.setBounds(240,10,250,50);
-        mainPanel.setBounds(0,70,700,250);
+        mainPanel.setBounds(0,170,700,150);
         add(mainPanel);
         JButton addButton = new JButton("Add Movie");
         addButton.setFocusable(false);
@@ -82,25 +63,7 @@ public class AddMovie extends JFrame {
         typeComboBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                hallComboBox.setEnabled(true);
-            }
-        });
-        hallComboBox.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int hall = hallComboBox.getSelectedIndex();
-                timeComboBox.addItem("100");
-                timeComboBox.setEnabled(true);
-                dur.setEnabled(false);
-            }
-        });
-        timeComboBox.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // add duration
-                dur.addItem(5);
                 dur.setEnabled(true);
-                nameTextField.setEnabled(false);
             }
         });
         dur.addActionListener(new ActionListener() {
@@ -125,17 +88,22 @@ public class AddMovie extends JFrame {
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if(!dur.isEnabled() || nameTextField.getText().isEmpty()) {
+                    JOptionPane.showMessageDialog(null,
+                            "Information is incomplete",
+                            "Error",JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
                 if(c.addMovie(nameTextField.getText(),dur.getSelectedIndex()+1, (TypeMovie) typeComboBox.getSelectedItem())){
                     JOptionPane.showConfirmDialog(null,
                             "Your Add has been completed successfully",
-                            "",
-                            JOptionPane.PLAIN_MESSAGE);
+                            "", JOptionPane.PLAIN_MESSAGE);
                 }
-                else
-                    JOptionPane.showConfirmDialog(null,
-                            "add failed",
-                            "",
-                            JOptionPane.ERROR_MESSAGE);
+                else {
+                    JOptionPane.showMessageDialog(null,
+                            "add failes",
+                            "Error",JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
     }

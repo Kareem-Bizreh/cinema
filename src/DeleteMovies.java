@@ -62,6 +62,13 @@ public class DeleteMovies extends JFrame {
         deleteFilm.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if(table.getSelectedRow()==-1)
+                {
+                    JOptionPane.showMessageDialog(null,
+                            "choose the film",
+                            "",JOptionPane.INFORMATION_MESSAGE);
+                    return;
+                }
                 c.removeMovie(table.getSelectedRow());
                 JOptionPane.showConfirmDialog(null,
                         "Your deletion has been completed successfully",

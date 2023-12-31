@@ -107,12 +107,19 @@ public class MovieInfo extends JFrame {
         add.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                addComment(c,customer,movie,customer.name,null,0);
+                addComment(c,customer,movie,customer.name,null,1);
             }
         });
         reserve.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if(times.getSelectedIndex()==-1)
+                {
+                    JOptionPane.showMessageDialog(null,
+                            "Information is incomplete",
+                            "Error",JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
                 dispose();
                 new Chair(c , customer ,
                         movie,c.getPresentation(movie,
@@ -127,6 +134,7 @@ public class MovieInfo extends JFrame {
                 JOptionPane.showMessageDialog(null,
                         "rating complete",
                         "Accept",JOptionPane.INFORMATION_MESSAGE);
+                rate.setText("full rate : " + String.valueOf(movie.rate));
             }
         });
     }
