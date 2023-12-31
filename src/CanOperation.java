@@ -1,3 +1,4 @@
+import java.time.DayOfWeek;
 import java.util.ArrayList;
 
 public interface CanOperation {
@@ -33,6 +34,10 @@ public interface CanOperation {
     // return User Info
     Customer findCustomer(String name, String password);
 
+    boolean changeName(Customer customer, String name);
+
+    void changePassword(Customer customer, String password);
+
     // to book a ticket for a user
     /**
      * this function  with bad time complexity to book a ticket
@@ -43,7 +48,7 @@ public interface CanOperation {
      */
     void bookTicket(Customer c, Movie movie, Presentation p, ArrayList<Ticket> booking, Thread t); // speed time
 
-    // to unbook a ticket //! BE CARFULL THIS FUNCTIONs COULD THROW AN EXCEPTION IF THE TICKET IS NOT TOKEN
+    // to unbook a ticket
     /**
      * this function  with bad time complexity to unbook a ticket
      */
@@ -64,6 +69,7 @@ public interface CanOperation {
     // 2 boolean functions to add or remove presentation
     boolean addPresentation(Movie movie, Date date, int hall_number);
     void removePresentation(Movie m, Presentation p);
+    ArrayList<Integer> allFreTime(Movie movie, int hall_number, DayOfWeek day);
     
     void addComment(Customer customer, Movie movie, String Comment);
     void addRate(Customer user, Movie movie, float rate);
@@ -78,4 +84,5 @@ public interface CanOperation {
     ArrayList<Customer> getCustomers();
     ArrayList<Movie> getMovies();
     Movie findMovie(String name);
+
 }

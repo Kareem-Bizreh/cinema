@@ -1,4 +1,5 @@
 import java.io.Serializable;
+import java.time.DayOfWeek;
 import java.util.*;
 
 public class Cinema implements CanOperation, Serializable {
@@ -20,6 +21,8 @@ public class Cinema implements CanOperation, Serializable {
         for (int i = 0; i < 24; i++)
             personsPerHour[i] = 0;
     }
+
+
 
     @Override
     public boolean addMovie(String name, int duration, TypeMovie type) {
@@ -62,6 +65,17 @@ public class Cinema implements CanOperation, Serializable {
             }
         }.start(); 
     }
+
+    @Override
+    public Movie findMovie(String name) {
+        for(Movie m : movies){
+            if(m.name.equals(name))
+                return m;
+        }
+        return null;
+    }
+
+
 
     @Override
     public ArrayList<String> mostPopularMovie() {
@@ -111,6 +125,9 @@ public class Cinema implements CanOperation, Serializable {
         return mx;
     }
 
+
+
+
     @Override
     public boolean addCustomer(String name, String password) {
         for (int i = 0; i < customers.size(); i++)
@@ -136,6 +153,22 @@ public class Cinema implements CanOperation, Serializable {
         }
         return null;
     }
+
+    @Override
+    public boolean changeName(Customer customer, String name) {
+        for (int i = 0; i < customers.size(); i++)
+            if (customers.get(i).name.equals(name))
+                return false;
+        customer.name = name;
+        return true;       
+    }
+
+    @Override
+    public void changePassword(Customer customer, String password) {
+        customer.password = password;
+    }
+
+
 
     @Override
     public void bookTickets(Customer c, Movie movie, Date date, int hall_number,
@@ -181,6 +214,8 @@ public class Cinema implements CanOperation, Serializable {
         }.start();
     }
 
+
+
     @Override
     public int priceWithDiscounts(Movie movie, Date date, int hall_number,
             ArrayList<Pair<Integer, Integer>> positions) {
@@ -202,6 +237,8 @@ public class Cinema implements CanOperation, Serializable {
     public int priceWithoutDiscounts(ArrayList<Ticket> tickets) {
         return new Ticketing().priceWithoutDiscounts(tickets);
     }
+
+
 
     @Override
     public boolean addPresentation(Movie movie, Date date, int hall_number) {
@@ -228,6 +265,45 @@ public class Cinema implements CanOperation, Serializable {
     }
 
     @Override
+    public ArrayList<Integer> allFreTime(Movie movie, int hall_number, DayOfWeek day)
+                                             throws IndexOutOfBoundsException {
+        int hours[] = new int[24];
+        ArrayList<Integer> ans = new ArrayList<>();
+
+        for(Presentation p : halls[hall_number - 1].getHall_presentations()) {
+            if(p.time.day.equals(day)) {
+                hours[p.time.hour]++;
+                hours[p.time.hour + p.duration]--;
+            }
+        }
+
+        for(int i = 1; i < hours.length; i++) {
+            hours[i] += hours[i - 1];  
+        }
+
+        for(int i = 0; i < 25 - movie.duration; i++) { // i < 22
+            boolean ok = true;
+            for(int j = 0; j < movie.duration; j++) { // 21 + 2 = 23
+                if(hours[i + j] == 1) {
+                    ok = false; break;
+                }
+            }
+            if(ok) {
+                ans.add(i);
+            }
+        }
+
+        return ans;
+    }
+
+    @Override
+    public Presentation getPresentation(Movie m, Date date, int hall_number) {
+        return halls[hall_number - 1].presentationOfMovie(m.ID, date);
+    }
+
+
+
+    @Override
     public void addComment(Customer customer, Movie movie, String Comment) {
         new Thread() {
             @Override
@@ -248,16 +324,6 @@ public class Cinema implements CanOperation, Serializable {
     }
 
     @Override
-    public Presentation getPresentation(Movie m, Date date, int hall_number) {
-        return halls[hall_number - 1].presentationOfMovie(m.ID, date);
-    }
-
-    @Override
-    public Ticket[][] getTickets(Presentation p) {
-        return p.p_tickets;
-    }
-
-    @Override
     public ArrayList<Pair<String, String>> getCommrnts(Movie m) {
         return m.comments;
     }
@@ -265,6 +331,13 @@ public class Cinema implements CanOperation, Serializable {
     @Override
     public float getRate(Movie m) {
         return m.rate; 
+    }
+
+
+
+    @Override
+    public Ticket[][] getTickets(Presentation p) {
+        return p.p_tickets;
     }
 
     @Override
@@ -290,15 +363,6 @@ public class Cinema implements CanOperation, Serializable {
     @Override
     public ArrayList<Movie> getMovies() {
         return movies;
-    }
-
-    @Override
-    public Movie findMovie(String name) {
-        for(Movie m : movies){
-            if(m.name.equals(name))
-                return m;
-        }
-        return null;
     }
 
     private int convert(String hall_name) {
