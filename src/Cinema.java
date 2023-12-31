@@ -154,12 +154,28 @@ public class Cinema implements CanOperation, Serializable {
         return null;
     }
 
+    private void changeComments(String user_name, String new_name) {
+        for(Movie m : movies) {
+            for(Pair<String, String> pair : m.comments) {
+                if(pair.getKey().equals(user_name)) {
+                    pair.setKey(new_name);
+                }
+            }
+        }
+    }
+
     @Override
     public boolean changeName(Customer customer, String name) {
         for (int i = 0; i < customers.size(); i++)
             if (customers.get(i).name.equals(name))
                 return false;
         customer.name = name;
+        new Thread() {
+            @Override
+            public void run() {
+                changeComments(customer.name, name);
+            }
+        }.start();
         return true;       
     }
 
