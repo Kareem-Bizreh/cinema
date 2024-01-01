@@ -1,5 +1,4 @@
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -42,15 +41,20 @@ public class AllMovies extends JFrame {
         JScrollPane scrollPane = new JScrollPane(panel);
         scrollPane.getVerticalScrollBar().setUnitIncrement(20);
         JLabel text=new JLabel("All Movies");
-        //ArrayList
-        JLabel most;
+        ArrayList<String> arrayList = c.mostPopularMovie();
+        JLabel most = new JLabel();
+        if(!arrayList.isEmpty())
+            most.setText("most popular movie is "+arrayList.get(0));
         text.setFont(new Font("Arial", Font.ITALIC, 40));
         text.setBounds(180,10,250,50);
+        most.setBounds(180,400,200,50);
         text.setForeground(Color.RED);
         text.setBackground(Color.BLACK);
         scrollPane.setBounds(40,75,500,300);
         add(text);
         add(scrollPane);
+        if(!arrayList.isEmpty())
+            add(most);
         Back.setBounds(40,400,100,50);
         Exit.setBounds(440,400,100,50);
         add(Back);

@@ -63,12 +63,15 @@ public class UserInfo extends JFrame {
                     return;
                 }
                 //statment (check if the name is valid)
-                if(true){
+                if(!c.changeName(customer,NewName)){
                     JOptionPane.showMessageDialog(null,
                             "Information is invalid",
                             "Error",JOptionPane.ERROR_MESSAGE);
-                    return;
                 }
+                else
+                    JOptionPane.showMessageDialog(null,
+                            "change successfully",
+                            "Accept",JOptionPane.PLAIN_MESSAGE);
             }
         });
         ChangePassword.addActionListener(new ActionListener() {
@@ -83,7 +86,10 @@ public class UserInfo extends JFrame {
                             "Error",JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                //chang password
+                c.changePassword(customer,NewPassword);
+                JOptionPane.showMessageDialog(null,
+                        "change successfully",
+                        "Accept",JOptionPane.PLAIN_MESSAGE);
             }
         });
         MyTicket.addActionListener(new ActionListener() {
