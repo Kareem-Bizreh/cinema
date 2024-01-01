@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 public class Log extends JFrame{
 
     Log(Cinema c){
-        setIconImage(new ImageIcon("cinema/test.png").getImage());
+        setIconImage(new ImageIcon("test.png").getImage());
         setResizable(false);
         setSize(700,400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -18,14 +18,14 @@ public class PaymentWays extends JFrame {
         text.setForeground(Color.RED);
         text.setBounds(120,30,600,30);
         JPanel panel = new JPanel(new GridLayout(4,2,10,10));
-        panel.add(new JButton(new ImageIcon("cinema/paypal.png")));
-        panel.add(new JButton(new ImageIcon("cinema/mastercard.png")));
-        panel.add(new JButton(new ImageIcon("cinema/visa.png")));
-        panel.add(new JButton(new ImageIcon("cinema/worldpay.png")));
-        panel.add(new JButton(new ImageIcon("cinema/bitcoin.png")));
-        panel.add(new JButton(new ImageIcon("cinema/bank.png")));
-        panel.add(new JButton(new ImageIcon("cinema/cash.png")));
-        panel.add(new JButton(new ImageIcon("cinema/Syriatel.png")));
+        panel.add(new JButton(new ImageIcon("paypal.png")));
+        panel.add(new JButton(new ImageIcon("mastercard.png")));
+        panel.add(new JButton(new ImageIcon("visa.png")));
+        panel.add(new JButton(new ImageIcon("worldpay.png")));
+        panel.add(new JButton(new ImageIcon("bitcoin.png")));
+        panel.add(new JButton(new ImageIcon("bank.png")));
+        panel.add(new JButton(new ImageIcon("cash.png")));
+        panel.add(new JButton(new ImageIcon("Syriatel.png")));
         panel.setBackground(Color.BLACK);
         for (Component comp : panel.getComponents()) {
             if (comp instanceof JButton) {

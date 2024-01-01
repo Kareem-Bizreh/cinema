@@ -3,9 +3,11 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
 public class AllMovies extends JFrame {
     AllMovies(Cinema c,Customer customer,int x){
-        setIconImage(new ImageIcon("cinema/test.png").getImage());
+        setIconImage(new ImageIcon("test.png").getImage());
         setResizable(false);
         setSize(600,520);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -40,6 +42,8 @@ public class AllMovies extends JFrame {
         JScrollPane scrollPane = new JScrollPane(panel);
         scrollPane.getVerticalScrollBar().setUnitIncrement(20);
         JLabel text=new JLabel("All Movies");
+        //ArrayList
+        JLabel most;
         text.setFont(new Font("Arial", Font.ITALIC, 40));
         text.setBounds(180,10,250,50);
         text.setForeground(Color.RED);

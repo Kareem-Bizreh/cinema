@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class AddPres extends JFrame {
     AddPres(Cinema c){
-        setIconImage(new ImageIcon("cinema/test.png").getImage());
+        setIconImage(new ImageIcon("test.png").getImage());
         //setResizable(false);
         setSize(720,550);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -63,7 +63,7 @@ public class AddPres extends JFrame {
         text.setBounds(205,10,320,50);
         mainPanel.setBounds(0,70,700,250);
         add(mainPanel);
-        JButton addButton = new JButton("Add Movie");
+        JButton addButton = new JButton("Add");
         addButton.setFocusable(false);
         addButton.setBounds(25,350,100,50);
         Back.setBounds(25,425,100,50);
@@ -81,7 +81,11 @@ public class AddPres extends JFrame {
         hallComboBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // add times
+                timeComboBox.removeAllItems();
+                ArrayList<Integer> arrayList = c.allFreTime(c.findMovie((String) Names.getSelectedItem()),hallComboBox.getSelectedIndex()+1,
+                        DayOfWeek.SUNDAY);
+                for (int i : arrayList)
+                    timeComboBox.addItem(Integer.toString(i));
                 timeComboBox.setEnabled(true);
             }
         });
@@ -111,9 +115,12 @@ public class AddPres extends JFrame {
                 JOptionPane.showMessageDialog(null,
                         "adding successfully",
                         "Accept",JOptionPane.INFORMATION_MESSAGE);
-                /*c.addPresentation(c.findMovie((String) Names.getSelectedItem())
-                        ,new Date(DayOfWeek.SUNDAY,times.get(timeComboBox.getSelectedIndex()))
-                        ,hallComboBox.getSelectedIndex()+1);*/
+                Movie movie=c.findMovie((String) Names.getSelectedItem());
+                c.addPresentation(movie
+                        ,new Date(DayOfWeek.SUNDAY,Integer.parseInt((String) timeComboBox.getSelectedItem()))
+                        ,hallComboBox.getSelectedIndex()+1);
+                dispose();
+                new AddPres(c);
             }
         });
     }

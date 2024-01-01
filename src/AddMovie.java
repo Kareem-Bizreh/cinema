@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 
 public class AddMovie extends JFrame {
     AddMovie(Cinema c){
-        setIconImage(new ImageIcon("cinema/test.png").getImage());
+        setIconImage(new ImageIcon("test.png").getImage());
         setResizable(false);
         setSize(720,550);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

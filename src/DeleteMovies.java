@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 
 public class DeleteMovies extends JFrame {
     DeleteMovies(Cinema c){
-        setIconImage(new ImageIcon("cinema/test.png").getImage());
+        setIconImage(new ImageIcon("test.png").getImage());
         setResizable(false);
         setSize(700,450);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class Chair extends JFrame {
     Chair(Cinema c , Customer customer,Movie movie ,Presentation presentation ,int x){
-        setIconImage(new ImageIcon("cinema/test.png").getImage());
+        setIconImage(new ImageIcon("test.png").getImage());
         setResizable(false);
         setSize(600,600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -63,8 +63,15 @@ public class Chair extends JFrame {
                             tickets.add(presentation.p_tickets[i][j]);
                         }
                     }
-                c.bookTicket(customer,movie,presentation,tickets);
-                //check how much he will pay
+                Thread t=new Thread();
+                c.bookTicket(customer,movie,presentation,tickets,t);
+                while (t.isAlive())
+                {
+                    JOptionPane.showConfirmDialog(null,
+                            "Your order is being processed",
+                            "wait",
+                            JOptionPane.PLAIN_MESSAGE);
+                }
                 dispose();
                 new PaymentWays(c,customer,movie,presentation,tickets,x);
             }

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class RemovePre extends JFrame {
     RemovePre(Cinema c){
-        setIconImage(new ImageIcon("cinema/test.png").getImage());
+        setIconImage(new ImageIcon("test.png").getImage());
         setResizable(false);
         setSize(700,450);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -82,27 +82,12 @@ public class RemovePre extends JFrame {
                     return;
                 }
                 Movie movie = c.findMovie((String) table.getValueAt(row,1));
+                //System.out.println(movie.date_hall.get(row).getKey()+" "+ movie.date_hall.get(row).getValue());
                 c.removePresentation(movie,c.getPresentation(movie,
                         movie.date_hall.get(row).getKey(),
                         movie.date_hall.get(row).getValue()));
-                int size=0;
-                ArrayList<Movie> movies = c.getMovies();
-                for(Movie m:movies){
-                    size+=m.date_hall.size();
-                }
-
-                String[][] data=new String[size][4];
-
-                for(Movie m:movies)
-                {
-                    for(int i=0;i<m.date_hall.size();i++){
-                        data[i][0]= String.valueOf(m.date_hall.get(i).getValue());
-                        data[i][1]=m.name;
-                        data[i][2]= String.valueOf(m.date_hall.get(i).getKey().hour);
-                        data[i][3]= String.valueOf(m.duration);
-                    }
-                }
-                model.setDataVector(data,columnNames);
+                dispose();
+                new RemovePre(c);
             }
         });
     }

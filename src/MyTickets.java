@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class MyTickets extends JFrame {
     MyTickets(Cinema c , Customer customer){
-        setIconImage(new ImageIcon("cinema/test.png").getImage());
+        setIconImage(new ImageIcon("test.png").getImage());
         setResizable(false);
         setSize(700,450);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -75,8 +75,9 @@ public class MyTickets extends JFrame {
                             "",JOptionPane.INFORMATION_MESSAGE);
                     return;
                 }
-                String s = (String) table.getValueAt(row,1);
-                //c.unbookTicket(customer,c.findMovie(s),);
+                c.unbookTicket(customer,tickets.get(row));
+                dispose();
+                new MyTickets(c,customer);
             }
         });
     }

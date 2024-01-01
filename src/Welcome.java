@@ -10,7 +10,7 @@ public class Welcome extends JFrame {
     Welcome(Cinema c){
         setSize(550,500);
         setResizable(false);
-        setIconImage(new ImageIcon("cinema/test.png").getImage());
+        setIconImage(new ImageIcon("test.png").getImage());
         setLayout(null);
         getContentPane().setBackground(Color.BLACK);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

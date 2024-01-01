@@ -2,11 +2,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class MovieInfo extends JFrame {
     JPanel panel;
     MovieInfo(Cinema c,Customer customer,Movie movie,int x){
-        setIconImage(new ImageIcon("cinema/test.png").getImage());
+        setIconImage(new ImageIcon("test.png").getImage());
         setResizable(false);
         setSize(650,650);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -37,7 +38,7 @@ public class MovieInfo extends JFrame {
         text.setBounds(230,10,250,50);
         text.setForeground(Color.BLUE);
 
-        JPanel Info = new JPanel(new GridLayout(4,1));
+        JPanel Info = new JPanel(new GridLayout(5,1));
         JLabel dur = new JLabel("Duration : " + movie.duration);
         dur.setFont(new Font("MV Boli", Font.BOLD,20));
         JLabel type = new JLabel("type : " + movie.type);
@@ -45,12 +46,22 @@ public class MovieInfo extends JFrame {
         JLabel rate = new JLabel("full rate : " + movie.rate);
         rate.setFont(new Font("MV Boli", Font.BOLD,20));
         //hours
-        JLabel hour = new JLabel("Busiest hour : " + "10:00");
+        ArrayList<Date> arrayList = c.mostPopularDateForMovie(movie);
+        String t;
+        if(arrayList.isEmpty())
+            t="no reservation";
+        else
+            t=Integer.toString(c.mostPopularDateForMovie(movie).get(0).hour);
+        JLabel hour = new JLabel("Busiest hour : " + t);
         hour.setFont(new Font("MV Boli", Font.BOLD,20));
+
+        JLabel counter = new JLabel("Number of viewers " + movie.counter);
+        counter.setFont(new Font("MV Boli", Font.BOLD,20));
         Info.add(dur);
         Info.add(type);
         Info.add(rate);
         Info.add(hour);
+        Info.add(counter);
 
         JButton reserve = new JButton("Reserve");
         reserve.setFocusable(false);
@@ -59,7 +70,7 @@ public class MovieInfo extends JFrame {
         //add items to times
         for (Pair<Date,Integer> p :movie.date_hall)
         {
-            times.addItem("Hall : " + p.getValue() + "time : " +p.getKey().hour+":00 hour");
+            times.addItem("Hall : " + p.getValue() +" "+ "time : " +p.getKey().hour+":00 hour");
         }
 
         JSlider ratingSlider = new JSlider(JSlider.HORIZONTAL, 0, 10, 0);
