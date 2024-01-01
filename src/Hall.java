@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Hall {
+public class Hall implements Serializable{
 
     String name;
     int number;

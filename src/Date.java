@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.time.DayOfWeek;
 
-public class Date {
+public class Date implements Serializable{
 
     DayOfWeek day;
     int hour;

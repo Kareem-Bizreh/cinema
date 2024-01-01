@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.Arrays;
 
-public class Presentation {
+public class Presentation implements Serializable{
 
     String hall_name;
     int hall_number;

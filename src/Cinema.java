@@ -42,27 +42,66 @@ public class Cinema implements CanOperation, Serializable {
                 }
                 this.movies = new ArrayList<>();
                 this.customers = new ArrayList<>();
+                saveM();
+                saveH();
+                saveC();
+                saveCpH();
             }
             else {
-                try(ObjectInputStream inputMovies = new ObjectInputStream(new FileInputStream(moviesFile));
-                    ObjectInputStream inputCperHour = new ObjectInputStream(new FileInputStream(cperHourFile));
-                    ObjectInputStream inputCustomers = new ObjectInputStream(new FileInputStream(customersFile));
-                    ObjectInputStream inputHalls = new ObjectInputStream(new FileInputStream(hallsFile))) {
-                    this.personsPerHour = (int[])inputCperHour.readObject();
-                    this.halls = (Hall[])inputHalls.readObject();
-                    this.customers = (ArrayList<Customer>)inputCustomers.readObject();
-                    this.movies = (ArrayList<Movie>)inputMovies.readObject();
-                } catch(IOException ioe) {
-                    System.out.println(ioe);
-                } catch(Exception e) {
-                    System.out.println(e);
-                }
+                readAll();
             }
         } catch(IOException ioe) {
             System.out.println(ioe);
         } catch(Exception e) {
             System.out.println(e);
         }
+    }
+
+    private void readM() {
+        try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream(moviesFile))) {
+            movies = (ArrayList<Movie>) ois.readObject();
+        } catch(IOException ioe) {
+            System.out.println(ioe);
+        } catch(Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    private void readC() {
+        try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream(customersFile))) {
+            this.customers = (ArrayList<Customer>)ois.readObject();
+        } catch(IOException ioe) {
+            System.out.println(ioe);
+        } catch(Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    private void readH() {
+        try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream(hallsFile))) {
+            this.halls = (Hall[]) ois.readObject();
+        } catch(IOException ioe) {
+            System.out.println(ioe);
+        } catch(Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    private void readCpH() {
+        try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream(cperHourFile))) {
+            this.personsPerHour = (int[]) ois.readObject();
+        } catch(IOException ioe) {
+            System.out.println(ioe);
+        } catch(Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    public void  readAll() {
+        readC();
+        readCpH();
+        readH();
+        readM();
     }
 
     private void saveM() {
@@ -75,7 +114,7 @@ public class Cinema implements CanOperation, Serializable {
         }
     }
 
-    private void saveC() {
+    public void saveC() {
         try(ObjectOutputStream ois = new ObjectOutputStream(new FileOutputStream(customersFile))) {
             ois.writeObject(customers);
         } catch(IOException ioe) {
@@ -109,6 +148,7 @@ public class Cinema implements CanOperation, Serializable {
 
     @Override
     public boolean addMovie(String name, int duration, TypeMovie type) {
+        //// readAll();
         for (int i = 0; i < movies.size(); i++)
             if (movies.get(i).name.equals(name))
                 return false;
@@ -119,6 +159,7 @@ public class Cinema implements CanOperation, Serializable {
 
     @Override
     public void removeMovie(Movie m) {
+        // // readAll();
         new Thread() {
             @Override
             public void run() {
@@ -137,6 +178,7 @@ public class Cinema implements CanOperation, Serializable {
 
     @Override
     public void removeMovie(int index_of_movie) {
+        // // readAll();
         new Thread() {
             @Override
             public void run() {
@@ -156,6 +198,7 @@ public class Cinema implements CanOperation, Serializable {
 
     @Override
     public Movie findMovie(String name) {
+        // readAll();
         for(Movie m : movies){
             if(m.name.equals(name))
                 return m;
@@ -167,6 +210,7 @@ public class Cinema implements CanOperation, Serializable {
 
     @Override
     public ArrayList<String> mostPopularMovie() {
+        // readAll();
         ArrayList<String> ans = new ArrayList<>();
         int c = 0;
         for (Movie i : movies) {
@@ -184,6 +228,7 @@ public class Cinema implements CanOperation, Serializable {
 
     @Override
     public ArrayList<Date> mostPopularDateForMovie(Movie x) {
+        // readAll();
         Set<Map.Entry<Date, Integer>> st = x.showtimes.entrySet();
         Iterator<Map.Entry<Date, Integer>> it = st.iterator();
         ArrayList<Date> ans = new ArrayList<>();
@@ -206,6 +251,7 @@ public class Cinema implements CanOperation, Serializable {
 
     @Override
     public int mostCrowdingHourForCinema() {
+        // readAll();
         int mx = 0;
         for (int i : personsPerHour) {
             mx = Math.max(mx, i);
@@ -217,6 +263,7 @@ public class Cinema implements CanOperation, Serializable {
 
     @Override
     public boolean addCustomer(String name, String password) {
+        // readAll();
         for (int i = 0; i < customers.size(); i++)
             if (customers.get(i).name.equals(name))
                 return false;
@@ -228,12 +275,14 @@ public class Cinema implements CanOperation, Serializable {
 
     @Override
     public boolean removeCustomer(Customer customer) {
+        // readAll();
         saveC();
         return customers.remove(customer);
     }
 
     @Override
     public Customer findCustomer(String name, String password) {
+        // readAll();
         Customer c = new Customer(name, password);
         for (Customer i : customers) {
             if (i.equals(c)) {
@@ -244,6 +293,7 @@ public class Cinema implements CanOperation, Serializable {
     }
 
     private void changeComments(String user_name, String new_name) {
+        // readAll();
         for(Movie m : movies) {
             for(Pair<String, String> pair : m.comments) {
                 if(pair.getKey().equals(user_name)) {
@@ -256,6 +306,7 @@ public class Cinema implements CanOperation, Serializable {
 
     @Override
     public boolean changeName(Customer customer, String name) {
+        // readAll();
         for (int i = 0; i < customers.size(); i++)
             if (customers.get(i).name.equals(name))
                 return false;
@@ -272,6 +323,7 @@ public class Cinema implements CanOperation, Serializable {
 
     @Override
     public void changePassword(Customer customer, String password) {
+        // readAll();
         customer.password = password;
         saveC();
     }
@@ -281,6 +333,7 @@ public class Cinema implements CanOperation, Serializable {
     @Override
     public void bookTickets(Customer c, Movie movie, Date date, int hall_number,
                             ArrayList<Pair<Integer, Integer>> positions, Thread t) {
+        // readAll();
         t = new Thread(){
             @Override
             public void run() {
@@ -295,6 +348,7 @@ public class Cinema implements CanOperation, Serializable {
 
     @Override
     public void bookTicket(Customer c, Movie movie, Presentation p, ArrayList<Ticket> booking, Thread t) {
+        // readAll();
         t = new Thread() {
             @Override
             public void run() {
@@ -310,6 +364,7 @@ public class Cinema implements CanOperation, Serializable {
     @Override
     public void unbookTickets(Customer c, Movie movie, Date date, int hall_number,
                             ArrayList<Pair<Integer, Integer>> positions) {
+        // readAll();                        
         new Thread() {
             @Override
             public void run() {
@@ -324,6 +379,7 @@ public class Cinema implements CanOperation, Serializable {
 
     @Override
     public void unbookTicket(Customer c, Ticket t) {
+        // readAll();
         new Thread() {
             @Override
             public void run() {
@@ -343,22 +399,26 @@ public class Cinema implements CanOperation, Serializable {
     @Override
     public int priceWithDiscounts(Movie movie, Date date, int hall_number,
             ArrayList<Pair<Integer, Integer>> positions) {
+        // readAll();
         return new Ticketing().priceWithDiscounts(movie, date, hall_number, positions, halls);
     }
 
     @Override
     public int priceWithDiscounts(ArrayList<Ticket> tickets) {
+        // readAll();
         return new Ticketing().priceWithDiscounts(tickets);
     }
 
     @Override
     public int priceWithoutDiscounts(Movie movie, Date date, int hall_number,
             ArrayList<Pair<Integer, Integer>> positions) {
+        // readAll();        
         return new Ticketing().priceWithoutDiscounts(movie, date, hall_number, positions, halls);
     }  
 
     @Override
     public int priceWithoutDiscounts(ArrayList<Ticket> tickets) {
+        // readAll();
         return new Ticketing().priceWithoutDiscounts(tickets);
     }
 
@@ -366,6 +426,7 @@ public class Cinema implements CanOperation, Serializable {
 
     @Override
     public boolean addPresentation(Movie movie, Date date, int hall_number) {
+        // readAll();
         int duration = movie.duration;
         if(hall_number >= 20 || hall_number < 0) return false;
         boolean c = halls[hall_number - 1].add_presentation(movie.name, movie.ID, date, duration);
@@ -377,6 +438,7 @@ public class Cinema implements CanOperation, Serializable {
 
     @Override
     public void removePresentation(Movie m, Presentation p) {
+        // readAll();
         new Thread() {
             @Override
             public void run() {
@@ -397,6 +459,7 @@ public class Cinema implements CanOperation, Serializable {
     @Override
     public ArrayList<Integer> allFreTime(Movie movie, int hall_number, DayOfWeek day)
                                              throws IndexOutOfBoundsException {
+        // readAll();                                        
         int hours[] = new int[24];
         ArrayList<Integer> ans = new ArrayList<>();
 
@@ -428,6 +491,7 @@ public class Cinema implements CanOperation, Serializable {
 
     @Override
     public Presentation getPresentation(Movie m, Date date, int hall_number) {
+        // readAll();
         return halls[hall_number - 1].presentationOfMovie(m.ID, date);
     }
 
@@ -435,6 +499,7 @@ public class Cinema implements CanOperation, Serializable {
 
     @Override
     public void addComment(Customer customer, Movie movie, String Comment) {
+        // readAll();
         new Thread() {
             @Override
             public void run() {
@@ -446,6 +511,7 @@ public class Cinema implements CanOperation, Serializable {
 
     @Override
     public synchronized void addRate(Customer user, Movie movie, float rate) {
+        // readAll();
         new Thread() {
             @Override
             public void run() {
@@ -458,11 +524,13 @@ public class Cinema implements CanOperation, Serializable {
 
     @Override
     public ArrayList<Pair<String, String>> getCommrnts(Movie m) {
+        // readAll();
         return m.comments;
     }
 
     @Override
     public float getRate(Movie m) {
+        // readAll();
         return m.rate; 
     }
 
@@ -470,31 +538,37 @@ public class Cinema implements CanOperation, Serializable {
 
     @Override
     public Ticket[][] getTickets(Presentation p) {
+        // readAll();
         return p.p_tickets;
     }
 
     @Override
     public ArrayList<Presentation> getHall_presentations(int hall_number) {
+        // readAll();
         return halls[hall_number - 1].getHall_presentations();
     }
 
     @Override
     public boolean is_full(Presentation p) {
+        // readAll();
         return p.is_full();
     }
 
     @Override
     public int getChair_number(Ticket t) {
+        // readAll();
         return t.getChair_number();
     }
 
     @Override
     public ArrayList<Customer> getCustomers() {
+        // readAll();
         return customers;
     }
 
     @Override
     public ArrayList<Movie> getMovies() {
+        // readAll();
         return movies;
     }
 

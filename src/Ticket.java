@@ -1,4 +1,6 @@
-public class Ticket {
+import java.io.Serializable;
+
+public class Ticket implements Serializable{
     Pair<Integer, Integer> position = new Pair<Integer, Integer>(); 
 
     int ticket_price;

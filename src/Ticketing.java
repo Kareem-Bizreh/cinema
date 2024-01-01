@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Ticketing {
+public class Ticketing implements Serializable{
 
     public void bookTicket(Customer c, Movie movie, Date date, int hall_number, ArrayList<Pair<Integer, Integer>> positions,
                             Hall[] halls, int[] personsPerHour) {

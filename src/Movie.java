@@ -1,7 +1,8 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Movie {
+public class Movie implements Serializable{
     String name;
     int ID;
     static int movieID = 0;

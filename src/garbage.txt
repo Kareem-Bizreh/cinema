@@ -92,4 +92,90 @@
 // this.movies = new ArrayList<>();
 // this.customers = new ArrayList<>();
 
-/////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////
+    private void readM() {
+        try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream(moviesFile))) {
+            movies = (ArrayList<Movie>) ois.readObject();
+        } catch(IOException ioe) {
+            System.out.println(ioe);
+        } catch(Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    private void readC() {
+        try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream(customersFile))) {
+            this.customers = (ArrayList<Customer>)ois.readObject();
+        } catch(IOException ioe) {
+            System.out.println(ioe);
+        } catch(Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    private void readH() {
+        try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream(hallsFile))) {
+            this.halls = (Hall[]) ois.readObject();
+        } catch(IOException ioe) {
+            System.out.println(ioe);
+        } catch(Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    private void readCpH() {
+        try(ObjectInputStream ois = new ObjectInputStream(new FileInputStream(cperHourFile))) {
+            this.personsPerHour = (int[]) ois.readObject();
+        } catch(IOException ioe) {
+            System.out.println(ioe);
+        } catch(Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    public void readAll() {
+        readC();
+        readCpH();
+        readH();
+        readM();
+    }
+
+    private void saveM() {
+        try(ObjectOutputStream ois = new ObjectOutputStream(new FileOutputStream(moviesFile))) {
+            ois.writeObject(movies);
+        } catch(IOException ioe) {
+            System.out.println(ioe);
+        } catch(Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    public void saveC() {
+        try(ObjectOutputStream ois = new ObjectOutputStream(new FileOutputStream(customersFile))) {
+            ois.writeObject(customers);
+        } catch(IOException ioe) {
+            System.out.println(ioe);
+        } catch(Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    private void saveH() {
+        try(ObjectOutputStream ois = new ObjectOutputStream(new FileOutputStream(hallsFile))) {
+            ois.writeObject(halls);
+        } catch(IOException ioe) {
+            System.out.println(ioe);
+        } catch(Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    private void saveCpH() {
+        try(ObjectOutputStream ois = new ObjectOutputStream(new FileOutputStream(cperHourFile))) {
+            ois.writeObject(personsPerHour);
+        } catch(IOException ioe) {
+            System.out.println(ioe);
+        } catch(Exception e) {
+            System.out.println(e);
+        }
+    }
