@@ -13,7 +13,6 @@ public class Maneger extends JFrame {
         setVisible(true);
         JButton delete = new JButton("Delete movie");
         JButton add = new JButton("Add movie");
-        JButton ChangePassword = new JButton("Change password");
         JButton all = new JButton("All movies");
         JButton delPre = new JButton("Delete presentation");
         JButton addpre = new JButton("Add presentation");
@@ -32,7 +31,6 @@ public class Maneger extends JFrame {
         panel.add(delPre);
         panel.add(addpre);
         panel.add(all);
-        panel.add(ChangePassword);
         panel.add(Back);
         panel.add(Exit);
         Exit.addActionListener(new ActionListener() {
