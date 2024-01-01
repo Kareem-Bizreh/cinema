@@ -1,6 +1,16 @@
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.time.DayOfWeek;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 public class Cinema implements CanOperation, Serializable {
 
@@ -8,18 +18,91 @@ public class Cinema implements CanOperation, Serializable {
     private ArrayList<Movie> movies;
     Hall halls[];
     int personsPerHour[];
+    File moviesFile;
+    File customersFile;
+    File hallsFile;
+    File cperHourFile;
 
-    // unparameterized constructor
     public Cinema() {
-        this.personsPerHour = new int[24];
-        this.halls = new Hall[20];
-        for(int i = 0; i < 20; i++) {
-            halls[i] = new Hall("Hall" + Integer.valueOf(i + 1), i + 1);
+        moviesFile = new File("movies.txt");
+        customersFile = new File("customers.txt");
+        hallsFile = new File("halls.txt");
+        cperHourFile = new File("perHour.txt"); 
+        try {
+            if(!moviesFile.exists() || !customersFile.exists() || !hallsFile.exists() || !cperHourFile.exists()) {
+                moviesFile.createNewFile();
+                hallsFile.createNewFile();
+                customersFile.createNewFile();
+                cperHourFile.createNewFile();
+
+                this.personsPerHour = new int[24];
+                this.halls = new Hall[20];
+                for(int i = 0; i < 20; i++) {
+                    halls[i] = new Hall("Hall" + Integer.valueOf(i + 1), i + 1);
+                }
+                this.movies = new ArrayList<>();
+                this.customers = new ArrayList<>();
+            }
+            else {
+                try(ObjectInputStream inputMovies = new ObjectInputStream(new FileInputStream(moviesFile));
+                    ObjectInputStream inputCperHour = new ObjectInputStream(new FileInputStream(cperHourFile));
+                    ObjectInputStream inputCustomers = new ObjectInputStream(new FileInputStream(customersFile));
+                    ObjectInputStream inputHalls = new ObjectInputStream(new FileInputStream(hallsFile))) {
+                    this.personsPerHour = (int[])inputCperHour.readObject();
+                    this.halls = (Hall[])inputHalls.readObject();
+                    this.customers = (ArrayList<Customer>)inputCustomers.readObject();
+                    this.movies = (ArrayList<Movie>)inputMovies.readObject();
+                } catch(IOException ioe) {
+                    System.out.println(ioe);
+                } catch(Exception e) {
+                    System.out.println(e);
+                }
+            }
+        } catch(IOException ioe) {
+            System.out.println(ioe);
+        } catch(Exception e) {
+            System.out.println(e);
         }
-        this.movies = new ArrayList<>();
-        this.customers = new ArrayList<>();
-        for (int i = 0; i < 24; i++)
-            personsPerHour[i] = 0;
+    }
+
+    private void saveM() {
+        try(ObjectOutputStream ois = new ObjectOutputStream(new FileOutputStream(moviesFile))) {
+            ois.writeObject(movies);
+        } catch(IOException ioe) {
+            System.out.println(ioe);
+        } catch(Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    private void saveC() {
+        try(ObjectOutputStream ois = new ObjectOutputStream(new FileOutputStream(customersFile))) {
+            ois.writeObject(customers);
+        } catch(IOException ioe) {
+            System.out.println(ioe);
+        } catch(Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    private void saveH() {
+        try(ObjectOutputStream ois = new ObjectOutputStream(new FileOutputStream(hallsFile))) {
+            ois.writeObject(halls);
+        } catch(IOException ioe) {
+            System.out.println(ioe);
+        } catch(Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    private void saveCpH() {
+        try(ObjectOutputStream ois = new ObjectOutputStream(new FileOutputStream(cperHourFile))) {
+            ois.writeObject(personsPerHour);
+        } catch(IOException ioe) {
+            System.out.println(ioe);
+        } catch(Exception e) {
+            System.out.println(e);
+        }
     }
 
 
@@ -30,6 +113,7 @@ public class Cinema implements CanOperation, Serializable {
             if (movies.get(i).name.equals(name))
                 return false;
         movies.add(new Movie(name, duration, type));
+        saveM();
         return true;
     }
 
@@ -45,6 +129,8 @@ public class Cinema implements CanOperation, Serializable {
                     }
                 }
                 movies.remove(m);
+                saveM();
+                saveH();
             }
         }.start(); 
     }
@@ -62,6 +148,8 @@ public class Cinema implements CanOperation, Serializable {
                     }
                 }
                 movies.remove(index_of_movie);
+                saveM();
+                saveH();
             }
         }.start(); 
     }
@@ -127,7 +215,6 @@ public class Cinema implements CanOperation, Serializable {
 
 
 
-
     @Override
     public boolean addCustomer(String name, String password) {
         for (int i = 0; i < customers.size(); i++)
@@ -135,11 +222,13 @@ public class Cinema implements CanOperation, Serializable {
                 return false;
         Customer customer = new Customer(name, password);
         customers.add(customer);
+        saveC();
         return true;
     }
 
     @Override
     public boolean removeCustomer(Customer customer) {
+        saveC();
         return customers.remove(customer);
     }
 
@@ -162,6 +251,7 @@ public class Cinema implements CanOperation, Serializable {
                 }
             }
         }
+        saveM();
     }
 
     @Override
@@ -170,6 +260,7 @@ public class Cinema implements CanOperation, Serializable {
             if (customers.get(i).name.equals(name))
                 return false;
         customer.name = name;
+        saveC();
         new Thread() {
             @Override
             public void run() {
@@ -182,6 +273,7 @@ public class Cinema implements CanOperation, Serializable {
     @Override
     public void changePassword(Customer customer, String password) {
         customer.password = password;
+        saveC();
     }
 
 
@@ -193,6 +285,10 @@ public class Cinema implements CanOperation, Serializable {
             @Override
             public void run() {
                 new Ticketing().bookTicket(c,movie,date,hall_number, positions, halls, personsPerHour);
+                saveCpH();
+                saveC();
+                saveH();
+                saveM();
             }
         }; t.start();
     }
@@ -203,6 +299,10 @@ public class Cinema implements CanOperation, Serializable {
             @Override
             public void run() {
                 new Ticketing().bookTicket(c, movie, p, booking, personsPerHour);
+                saveCpH();
+                saveC();
+                saveH();
+                saveM();
             }
         }; t.start();
     }
@@ -214,6 +314,10 @@ public class Cinema implements CanOperation, Serializable {
             @Override
             public void run() {
                 new Ticketing().unbookTicket(c, movie, date, hall_number, positions, halls, personsPerHour);
+                saveCpH();
+                saveC();
+                saveH();
+                saveM();
             }
         }.start();
     }
@@ -226,6 +330,10 @@ public class Cinema implements CanOperation, Serializable {
                 Movie movie = findMovie(t.movie_name);
                 Presentation p = getPresentation(movie, t.time, convert(t.hall_name));
                 new Ticketing().unbookTicket(c, movie, p, t, personsPerHour);
+                saveCpH();
+                saveC();
+                saveH();
+                saveM();
             }
         }.start();
     }
@@ -262,6 +370,8 @@ public class Cinema implements CanOperation, Serializable {
         if(hall_number >= 20 || hall_number < 0) return false;
         boolean c = halls[hall_number - 1].add_presentation(movie.name, movie.ID, date, duration);
         if(c) movie.addPres(date, hall_number);
+        saveM();
+        saveH();
         return c;
     }
 
@@ -276,6 +386,10 @@ public class Cinema implements CanOperation, Serializable {
                 for(int i = 0; i < customers.size(); i++) {
                     customers.get(i).removePres(p.movie_name, p.time, p.hall_name);
                 }
+                saveCpH();
+                saveC();
+                saveH();
+                saveM();
             }
         }.start();   
     }
@@ -325,6 +439,7 @@ public class Cinema implements CanOperation, Serializable {
             @Override
             public void run() {
                 movie.addComment(customer.name, Comment);
+                saveM();
             }
         }.start();
     }
@@ -335,6 +450,8 @@ public class Cinema implements CanOperation, Serializable {
             @Override
             public void run() {
                 movie.addRate(user, rate);
+                saveM();
+                saveC();
             }
         }.start();
     }
@@ -382,13 +499,13 @@ public class Cinema implements CanOperation, Serializable {
     }
 
     private int convert(String hall_name) {
-        String s = hall_name.substring(5);
+        String s = hall_name.substring(4);
         int ans = Integer.parseInt(s);
         return ans;
     }
 
     @Override
-    public String toString() {
+    public String toString() { 
         return "Cinema [customers=" + customers.toString() + ", movies=" + movies.toString()
          + ", halls=" + Arrays.toString(halls) + ", personsPerHour=" + Arrays.toString(personsPerHour) + "]";
     }
