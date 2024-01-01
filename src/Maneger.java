@@ -19,7 +19,6 @@ public class Maneger extends JFrame {
         JButton addpre = new JButton("Add presentation");
         delete.setFocusable(false);
         add.setFocusable(false);
-        ChangePassword.setFocusable(false);
         all.setFocusable(false);
         delPre.setFocusable(false);
         addpre.setFocusable(false);
@@ -54,21 +53,6 @@ public class Maneger extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 dispose();
                 new DeleteMovies(c);
-            }
-        });
-        ChangePassword.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String NewPassword = JOptionPane.showInputDialog("Enter new password");
-                if(NewPassword==null)
-                    return;
-                if(NewPassword.isEmpty()){
-                    JOptionPane.showMessageDialog(null,
-                            "Information is incomplete",
-                            "Error",JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-                //change
             }
         });
         add.addActionListener(new ActionListener() {

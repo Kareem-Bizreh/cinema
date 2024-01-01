@@ -14,6 +14,9 @@ public class Welcome extends JFrame {
         setLayout(null);
         getContentPane().setBackground(Color.BLACK);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JLabel front = new JLabel(new ImageIcon("background.png"));
+        front.setBounds(0,0,550,500);
+        add(front);
         text.setFont(new Font("MV Boli",Font.PLAIN,20));
         text.setForeground(Color.red);
         text.setBounds(140,0,500,20);
